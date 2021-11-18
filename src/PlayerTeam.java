@@ -7,6 +7,7 @@ import java.util.Map;
  * which contains several amount of heroes
  */
 public class PlayerTeam extends Player
+
 {
     private int row;
     private int col;
@@ -113,4 +114,16 @@ public class PlayerTeam extends Player
         }
         return " ";
     }
+
+//    @Override
+//    public Hero makeTurn(int i) {
+//        for (Integer index : team.keySet()) {
+//            if(i == getTeamSize()-1){
+//                return team.get(0);
+//            }else{
+//                team.get(i+1);
+//            }
+//
+//        }
+//    }
 }

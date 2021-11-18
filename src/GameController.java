@@ -27,12 +27,17 @@ public class GameController extends RpgGame
         Cell[][] map = this.board.getCells();
         int[] pos = this.validPlayerPos(map);
         this.board.setCells("P", pos[0], pos[1]);
-        this.team.setRowCol(pos[0], pos[1]);
+        //this.team.setRowCol(pos[0], pos[1]);
+
+        //initialize each hero pos
+        this.board.setHeroLane();
+        this.board.setMonsterLane();
     }
 
     //player game according to user input
     public void playGame() {
         while (true) {
+
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
@@ -161,4 +166,44 @@ public class GameController extends RpgGame
         }
         return new int[] { r, c };
     }
+
+    public void teleport(Hero hero, Cell[][] cells, int targetRow, int targetCol){
+
+            if(targetCol/3 == hero.getCol()/3){ //in the same lane
+                System.out.println("Your destination cannot be in your lane!");
+            }else{
+                makeMove(hero, "H1", cells, targetRow, targetCol);  //H1 should be replaced by the sign
+                //to represent the heroes such like H1, H2, H3
+            }
+    }
+
+    public void makeMove(Hero hero, String value, Cell[][] cells, int row,int col) {
+        if (this.checkBorder(row, col)) {
+            if (cells[row][col] instanceof InaccessibleCell) {
+                System.out.println("cannot enter # (inaccessible)!");
+            }
+            else if (cells[row][col] instanceof CommonCell) {
+                this.board.setCells(value, row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+//                this.team.setRowCol(row, col);  //should be the location of a specific hero
+                this.fight(this.input);
+            }
+            else if (cells[row][col] instanceof MarketCell) {
+                this.board.setCells(value, row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+//                this.team.setRowCol(row, col);    //should be the location of a specific hero
+                System.out.println("You have entered a market place!");
+            }
+        }
+        else {
+            System.out.println("You cannot move to outside of the board!");
+        }
+    }
+
+
+    public void back(Hero hero, String value, Cell[][] cells){
+        makeMove(hero, value, cells, 0, hero.getCol());
+    }
+
+
 }

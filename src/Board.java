@@ -67,6 +67,11 @@ public class Board {
         }
     }
 
+    //set each hero initial lane
+    public void setHeroLane(){}
+
+    public void setMonsterLane(){};
+
     public void setCells(String str, int rol, int col){
         cells[rol][col].setCellValue(str);
     }

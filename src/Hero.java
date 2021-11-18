@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 /**
  * abstract class for all three types of hero
@@ -21,6 +22,7 @@ public abstract class Hero extends Character{
     //hero current equipped weapon and armor
     private Weapon weapon;
     private Armor armor;
+    private boolean isTurn;
 
     enum HeroType{
         WARRIORS, SORCERERS, PALADINS;
@@ -293,4 +295,8 @@ public abstract class Hero extends Character{
         }
         return false;
     }
+
+
+
+
 }
