@@ -2,7 +2,7 @@
  * abstract class for each cell, inaccessible,
  * marketCell and common cell needs to extend this class
  */
-public abstract class Cell
+public class Cell
 {
     private int row;
     private int col;
@@ -46,6 +46,12 @@ public abstract class Cell
     {
         COMMON_CELL,
         INACCESSIBLE_CELL,
-        MARKET_CELL;
+        MARKET_CELL,
+        CAVE_CELL,
+        BUSH_CELL,
+        KOULOU_CELL,
+        HERONEXUS_CELL,
+        MONSTERNEXUS_CELL;
+
     }
 }

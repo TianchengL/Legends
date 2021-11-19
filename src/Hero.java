@@ -47,6 +47,8 @@ public abstract class Hero extends Character{
         this.dexterity = skill.addDexterity(dexterity);
     }
 
+
+
     //get hero inventory
     public Inventory getInventory() {
         return inventory;
