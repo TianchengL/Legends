@@ -1,6 +1,6 @@
 public class CaveCell extends Cell{
     public CaveCell(int row, int col, String value){
-        super(row,col,value);
+        super(value);
     }
 
     @Override
