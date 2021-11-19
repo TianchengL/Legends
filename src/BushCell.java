@@ -1,7 +1,7 @@
 public class BushCell extends Cell{
 
     public BushCell(int row, int col, String value){
-        super(row,col,value);
+        super(value);
     }
 
     @Override

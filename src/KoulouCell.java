@@ -1,7 +1,7 @@
 public class KoulouCell extends Cell{
 
     public KoulouCell(int row, int col, String value){
-        super(row,col,value);
+        super(value);
     }
 
     @Override

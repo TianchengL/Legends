@@ -1,7 +1,7 @@
 public class HeroNexus extends Cell{
 
     public HeroNexus(int row, int col, String value){
-        super(row,col,value);
+        super(value);
     }
 
     @Override

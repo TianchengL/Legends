@@ -4,7 +4,7 @@
 public class CommonCell extends Cell
 {
     public CommonCell(int row, int col,  String value) {
-        super(row, col, value);
+        super(value);
     }
 
     @Override

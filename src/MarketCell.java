@@ -4,7 +4,7 @@
 public class MarketCell extends Cell {
 
     public MarketCell(int row, int col, String value) {
-        super(row, col, value);
+        super(value);
 
     }
 
