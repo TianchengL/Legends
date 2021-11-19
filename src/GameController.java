@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -10,39 +12,39 @@ public class GameController extends RpgGame
     private final Board board;
     private final Scanner input;
     private final PlayerTeam team;
-    private final int boardSize;
     private final Market market;
+    private final Map<Integer, Hero> heroes;
 
     public GameController(Scanner input, HeroSelectionController hs) {
         this.input = input;
         this.team = hs.getPlayerTeam();
-        this.boardSize = hs.getBoardSize();
-        this.board = new Board(this.boardSize, this.boardSize);
+        this.board = new Board();
         this.market = new Market();
+        this.heroes = team.getTeam();
         this.init();
     }
 
     //init map, random set player to a common cell or market cell
     public void init() {
         Cell[][] map = this.board.getCells();
-        int[] pos = this.validPlayerPos(map);
-        this.board.setCells("P", pos[0], pos[1]);
-        //this.team.setRowCol(pos[0], pos[1]);
+        this.board.setCells("X", 7, 0);
+        this.team.setRowCol(7, 0);
 
-        //initialize each hero pos
-        this.board.setHeroLane();
-        this.board.setMonsterLane();
+        //set each hero initial pos
+        heroes.get(0).setHeroPos(0, 0);
+        heroes.get(1).setHeroPos(3,3);
+        heroes.get(2).setHeroPos(6,6);
     }
 
     //player game according to user input
     public void playGame() {
         while (true) {
-
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
             String s = this.input.next();
             if ("w".equalsIgnoreCase(s)) {
+                //change team to hero
                 int row = this.team.getRow() - 1;
                 int col = this.team.getCol();
                 this.makeMove(cells, row, col);
@@ -63,7 +65,7 @@ public class GameController extends RpgGame
                 this.makeMove(cells, row, col);
             }
             else if ("m".equalsIgnoreCase(s)) {
-                if (cells[this.team.getRow()][this.team.getCol()] instanceof MarketCell) {
+                if (cells[this.team.getRow()][this.team.getCol()] instanceof HeroNexus) {
                     System.out.println("Which hero want to enter market? Enter Hero ID");
                     this.team.displayName();
                     int id = Integer.parseInt(UtilCheckInput.checkInput(this.input,
@@ -87,6 +89,11 @@ public class GameController extends RpgGame
                     System.out.println(this.team.getHero(integer).getName());
                     this.team.getHero(integer).disPlay();
                 }
+            }
+            //finish current hero turn
+            else if ("f".equalsIgnoreCase(s)) {
+
+                //monster make move
             }
             else {
                 if ("q".equalsIgnoreCase(s)) {
@@ -118,23 +125,48 @@ public class GameController extends RpgGame
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
     }
 
-    //player move to next cell
+    //current turn hero move to next cell
     public void makeMove(Cell[][] cells, int row,int col) {
         if (this.checkBorder(row, col)) {
             if (cells[row][col] instanceof InaccessibleCell) {
                 System.out.println("cannot enter # (inaccessible)!");
             }
             else if (cells[row][col] instanceof CommonCell) {
-                this.board.setCells("P", row, col);
+                //X refers to hero
+                this.board.setCells("X", row, col);
                 this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
                 this.team.setRowCol(row, col);
                 this.fight(this.input);
             }
-            else if (cells[row][col] instanceof MarketCell) {
-                this.board.setCells("P", row, col);
+            else if (cells[row][col] instanceof CaveCell) {
+                this.board.setCells("X", row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+                this.team.setRowCol(row, col);
+                this.fight(this.input);
+            }
+            else if (cells[row][col] instanceof KoulouCell) {
+                this.board.setCells("X", row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+                this.team.setRowCol(row, col);
+                this.fight(this.input);
+            }
+            else if (cells[row][col] instanceof BushCell) {
+                this.board.setCells("X", row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+                this.team.setRowCol(row, col);
+                this.fight(this.input);
+            }
+            else if (cells[row][col] instanceof HeroNexus) {
+                this.board.setCells("X", row, col);
                 this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
                 this.team.setRowCol(row, col);
                 System.out.println("You have entered a market place!");
+            }
+            else if (cells[row][col] instanceof MonsterNexus) {
+                this.board.setCells("X", row, col);
+                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
+                this.team.setRowCol(row, col);
+                this.end();
             }
         }
         else {
@@ -143,13 +175,13 @@ public class GameController extends RpgGame
     }
 
     private boolean checkBorder(int row, int col) {
-        return row < this.boardSize && row >= 0 && col < this.boardSize && col >= 0;
+        return row < 8 && row >= 0 && col < 8 && col >= 0;
     }
 
     //initial player position cannot be blocked in all direction
     private int[] validPlayerPos(Cell[][] cells) {
-        int r = (int)(Math.random() * this.boardSize);
-        int c = (int)(Math.random() * this.boardSize);
+        int r = (int)(Math.random() * 8);
+        int c = (int)(Math.random() * 8);
         while (true) {
             if (!(cells[r][c] instanceof InaccessibleCell)) {
                 if (r - 1 >= 0 && !(cells[r - 1][c] instanceof InaccessibleCell)) {
@@ -161,49 +193,16 @@ public class GameController extends RpgGame
                     continue;
                 }
             }
-            r = (int)(Math.random() * this.boardSize);
-            c = (int)(Math.random() * this.boardSize);
+            r = (int)(Math.random() * 8);
+            c = (int)(Math.random() * 8);
         }
         return new int[] { r, c };
     }
 
-    public void teleport(Hero hero, Cell[][] cells, int targetRow, int targetCol){
-
-            if(targetCol/3 == hero.getCol()/3){ //in the same lane
-                System.out.println("Your destination cannot be in your lane!");
-            }else{
-                makeMove(hero, "H1", cells, targetRow, targetCol);  //H1 should be replaced by the sign
-                //to represent the heroes such like H1, H2, H3
-            }
+    public void end(){
+        System.out.println("Congratulation!");
+        System.out.println("Hero team have destroy the monster's nexus");
+        System.out.println("The game is over, Thanks for playing");
+        System.exit(0);
     }
-
-    public void makeMove(Hero hero, String value, Cell[][] cells, int row,int col) {
-        if (this.checkBorder(row, col)) {
-            if (cells[row][col] instanceof InaccessibleCell) {
-                System.out.println("cannot enter # (inaccessible)!");
-            }
-            else if (cells[row][col] instanceof CommonCell) {
-                this.board.setCells(value, row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-//                this.team.setRowCol(row, col);  //should be the location of a specific hero
-                this.fight(this.input);
-            }
-            else if (cells[row][col] instanceof MarketCell) {
-                this.board.setCells(value, row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-//                this.team.setRowCol(row, col);    //should be the location of a specific hero
-                System.out.println("You have entered a market place!");
-            }
-        }
-        else {
-            System.out.println("You cannot move to outside of the board!");
-        }
-    }
-
-
-    public void back(Hero hero, String value, Cell[][] cells){
-        makeMove(hero, value, cells, 0, hero.getCol());
-    }
-
-
 }

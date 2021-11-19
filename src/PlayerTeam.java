@@ -109,9 +109,27 @@ public class PlayerTeam extends Player
         if (cells[this.row][this.col] instanceof InaccessibleCell) {
             return "#";
         }
-        if (cells[this.row][this.col] instanceof MarketCell) {
-            return "M";
+        if (cells[this.row][this.col] instanceof HeroNexus) {
+            return "HN";
         }
+        if(cells[this.row][this.col] instanceof CaveCell){
+            return "C";
+        }
+        if(cells[this.row][this.col] instanceof KoulouCell){
+            return "K";
+        }
+        if(cells[this.row][this.col] instanceof BushCell){
+            return "B";
+        }
+        if(cells[this.row][this.col] instanceof CommonCell){
+            return "P";
+        }
+
+        if(cells[this.row][this.col] instanceof MonsterNexus){
+            return "MN";
+        }
+
+
         return " ";
     }
 
