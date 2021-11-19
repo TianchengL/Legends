@@ -22,6 +22,9 @@ public abstract class Hero extends Character{
     private Weapon weapon;
     private Armor armor;
 
+    //current hero's position
+    private int row, col;
+
     enum HeroType{
         WARRIORS, SORCERERS, PALADINS;
     }
@@ -46,6 +49,8 @@ public abstract class Hero extends Character{
         this.agility = skill.addAgility(agility);
         this.dexterity = skill.addDexterity(dexterity);
     }
+
+
 
     //get hero inventory
     public Inventory getInventory() {
@@ -253,6 +258,26 @@ public abstract class Hero extends Character{
         this.ID = ID;
     }
     public abstract HeroType getType();
+    public int getRow() {
+        return row;
+    }
+    public void setRow(int row) {
+        this.row = row;
+    }
+    public int getCol() {
+        return col;
+    }
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    //set hero position
+    //pos represent hero is in current cell's left or w
+    public void setHeroPos(int row, int col){
+        this.row = row;
+        this.col = col;
+    }
+
 
     public void disPlay() {
         System.out.format("%-20s %4s %7s %11s %13s %11s %10s %7s %10s %7s%n",

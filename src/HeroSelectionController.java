@@ -31,16 +31,11 @@ public class HeroSelectionController
         System.out.println("please choose a name for your hero team!");
         String name = this.input.next();
         this.team = new PlayerTeam(name);
-        System.out.println("Please select board size. Enter a number between 5 - 10. It will create n x n matrix board");
-        this.boardSize = Integer.parseInt(UtilCheckInput.checkInput(input, 5, 10));
         System.out.println("Please enter how many hero you want to add to your team!(1-3)");
         int heroNum = Integer.parseInt(UtilCheckInput.checkInput(input, 1, 3));
         this.addToTeam(heroNum);
     }
 
-    public int getBoardSize() {
-        return this.boardSize;
-    }
     public PlayerTeam getPlayerTeam() {
         return this.team;
     }
