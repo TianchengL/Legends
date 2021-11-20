@@ -1,6 +1,6 @@
 public class BushCell extends Cell{
 
-    public BushCell(int row, int col, String value){
+    public BushCell(String value){
         super(value);
     }
 

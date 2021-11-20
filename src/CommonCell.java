@@ -3,7 +3,7 @@
  */
 public class CommonCell extends Cell
 {
-    public CommonCell(int row, int col,  String value) {
+    public CommonCell(String value) {
         super(value);
     }
 

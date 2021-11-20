@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,7 +108,7 @@ public class PlayerTeam extends Player
         if (cells[this.row][this.col] instanceof InaccessibleCell) {
             return "#";
         }
-        if (cells[this.row][this.col] instanceof HeroNexus) {
+        if (cells[this.row][this.col] instanceof HeroNexusCell) {
             return "HN";
         }
         if(cells[this.row][this.col] instanceof CaveCell){
@@ -125,7 +124,7 @@ public class PlayerTeam extends Player
             return "P";
         }
 
-        if(cells[this.row][this.col] instanceof MonsterNexus){
+        if(cells[this.row][this.col] instanceof MonsterNexusCell){
             return "MN";
         }
 

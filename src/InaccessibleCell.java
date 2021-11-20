@@ -4,7 +4,7 @@
 public class InaccessibleCell extends Cell {
 
 
-    public InaccessibleCell(int row, int col, String value) {
+    public InaccessibleCell(String value) {
         super(value);
     }
 

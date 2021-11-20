@@ -1,6 +1,6 @@
-public class HeroNexus extends Cell{
+public class HeroNexusCell extends Cell{
 
-    public HeroNexus(int row, int col, String value){
+    public HeroNexusCell(String value){
         super(value);
     }
 

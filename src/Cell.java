@@ -41,14 +41,8 @@ public class Cell
         }
     }
 
-    //print each cell
-    public void printCell(){
-        for (String[] po : pos) {
-            for (int c = 0; c < pos[0].length; c++) {
-                System.out.print(po[c]);
-            }
-            System.out.println();
-        }
+    public String[][] getPos() {
+        return pos;
     }
 
     //used to set Hero and monster's position
@@ -67,9 +61,6 @@ public class Cell
     public void resetMCell(){
         this.pos[1][3] = "   ";
     }
-
-
-
 
     //getter and setter
     public CellType getCellType() {
@@ -101,12 +92,14 @@ public class Cell
     }
 
     public static void main(String[] args) {
-//        //Cell n = new Cell(1, 1, "N");
-//        n.setCellHeroPos("H1");
-//        n.setCellMonPos("M1");
-//        n.resetHeroCell();
-//        n.resetMCell();
-//        n.printCell();
+        Cell n = new Cell( "N");
+        Cell m = new Cell("M");
+        n.setCellHeroPos("H1");
+        n.setCellMonPos("M1");
+        n.resetHeroCell();
+        n.resetMCell();
+       // n.printCell();
+//        m.printCell();
 
     }
 }

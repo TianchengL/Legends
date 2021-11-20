@@ -1,6 +1,6 @@
 public class KoulouCell extends Cell{
 
-    public KoulouCell(int row, int col, String value){
+    public KoulouCell(String value){
         super(value);
     }
 

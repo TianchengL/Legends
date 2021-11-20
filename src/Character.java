@@ -35,7 +35,7 @@ public abstract class Character {
     private int row;
     private int col;
 
-    public abstract boolean canAttack();   //judge if there is an opposite character in its attack range
+   // public abstract boolean canAttack();   //judge if there is an opposite character in its attack range
 
 
 

@@ -1,5 +1,5 @@
 public class CaveCell extends Cell{
-    public CaveCell(int row, int col, String value){
+    public CaveCell( String value){
         super(value);
     }
 

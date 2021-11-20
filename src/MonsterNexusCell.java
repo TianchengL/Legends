@@ -1,6 +1,6 @@
-public class MonsterNexus extends Cell{
+public class MonsterNexusCell extends Cell{
 
-    public MonsterNexus(int row, int col, String value){
+    public MonsterNexusCell(String value){
         super(value);
     }
 

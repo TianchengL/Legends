@@ -1,5 +1,3 @@
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -18,7 +16,7 @@ public class GameController extends RpgGame
     public GameController(Scanner input, HeroSelectionController hs) {
         this.input = input;
         this.team = hs.getPlayerTeam();
-        this.board = new Board();
+        this.board = new Board(8,8);
         this.market = new Market();
         this.heroes = team.getTeam();
         this.init();
@@ -65,7 +63,7 @@ public class GameController extends RpgGame
                 this.makeMove(cells, row, col);
             }
             else if ("m".equalsIgnoreCase(s)) {
-                if (cells[this.team.getRow()][this.team.getCol()] instanceof HeroNexus) {
+                if (cells[this.team.getRow()][this.team.getCol()] instanceof HeroNexusCell) {
                     System.out.println("Which hero want to enter market? Enter Hero ID");
                     this.team.displayName();
                     int id = Integer.parseInt(UtilCheckInput.checkInput(this.input,
@@ -156,13 +154,13 @@ public class GameController extends RpgGame
                 this.team.setRowCol(row, col);
                 this.fight(this.input);
             }
-            else if (cells[row][col] instanceof HeroNexus) {
+            else if (cells[row][col] instanceof HeroNexusCell) {
                 this.board.setCells("X", row, col);
                 this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
                 this.team.setRowCol(row, col);
                 System.out.println("You have entered a market place!");
             }
-            else if (cells[row][col] instanceof MonsterNexus) {
+            else if (cells[row][col] instanceof MonsterNexusCell) {
                 this.board.setCells("X", row, col);
                 this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
                 this.team.setRowCol(row, col);
