@@ -38,8 +38,7 @@ public abstract class Character {
 
 
 
-    public abstract boolean canAttack(Team team);   //judge if there is an opposite character in its attack range
-
+    public abstract Character canAttack(Team team);   //judge if there is an opposite character in its attack range
 
 
 }

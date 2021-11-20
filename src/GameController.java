@@ -93,10 +93,11 @@ public class GameController extends RpgGame
                 }
                 //attack
                 else if ("k".equalsIgnoreCase(s)){
-                    if(hero.canAttack(monsterTeam)){
+                    if(hero.canAttack(monsterTeam) != null){
                         System.out.println("Attack starts!");
                         //enter fight
-
+                        System.out.println(Message.fight);
+                        System.out.println(hero.canAttack(monsterTeam).getName());
                     }else{
                         System.out.println("There is no monsters in your attack range.");
                         continue;
