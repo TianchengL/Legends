@@ -40,9 +40,9 @@ public class GameController extends RpgGame
         heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
 
         //initialize monster pos
-        monsters.get(0).setMonsterPos(map[0][0], "M1", 0, 0);
-        monsters.get(0).setMonsterPos(map[0][3], "M1", 0, 3);
-        monsters.get(0).setMonsterPos(map[0][6], "M1", 0, 6);
+        monsters.get(0).setMonsterPos(map[0][0], "M", 0, 0);
+        monsters.get(1).setMonsterPos(map[0][3], "M", 0, 3);
+        monsters.get(2).setMonsterPos(map[0][6], "M", 0, 6);
 
     }
 
@@ -51,6 +51,8 @@ public class GameController extends RpgGame
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
         while (true) {
+            System.out.println();
+            System.out.println("Monsters move first");
             System.out.println();
             System.out.println("In hero "+hero.name+ "'s round");
             this.board.printBoard();
@@ -110,21 +112,28 @@ public class GameController extends RpgGame
 
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
-                if(playerTeam.getHeroID(hero) == 2){
+                if (playerTeam.getHeroID(hero) == 2) {
                     hero = playerTeam.getHero(0);
-                }else{
+                } else {
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
                 //monster make move
+                int index = playerTeam.getHeroID(hero) -1;
+                Monster m = monsters.get(index);
+                int mrow = m.getRow();
+                int mcol = m.getCol();
+                m.makeMove(cells,mrow+1, mcol);
 
             }
+
             else {
                 if ("q".equalsIgnoreCase(s)) {
                     break;
                 }
                 System.out.println("\nInvalid Input!\n");
             }
+
         }
         System.out.println("Good Bye!");
     }

@@ -31,7 +31,13 @@ public abstract class Monster extends Character{
     }
 
     //monster move
-    public void makeMove(){
+    public void makeMove(Cell[][] cells, int row, int col){
+
+        cells[row][col].setCellMonPos("M");
+        cells[this.getRow()][this.getCol()].resetMCell();
+        //update hero pos
+        this.setPos(row, col);
+
 
     }
 
