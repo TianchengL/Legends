@@ -9,7 +9,7 @@ import java.util.List;
  * store same amount of monster with heroes
  * level should be equal to the highest level of hero
  */
-public class MonsterTeam
+public class MonsterTeam implements Team
 {
     public List<Monster> monster_team;
 

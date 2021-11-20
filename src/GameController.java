@@ -51,6 +51,8 @@ public class GameController extends RpgGame
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
         while (true) {
+            System.out.println();
+            System.out.println("In hero "+hero.name+ "'s round");
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
@@ -74,6 +76,17 @@ public class GameController extends RpgGame
                     int row = hero.getRow();
                     int col = hero.getCol() + 1;
                     hero.makeMove(this.playerTeam, cells, hero, row, col);
+                }  //attack
+                else if ("k".equalsIgnoreCase(s)){
+                    if(hero.canAttack(monsterTeam)){
+                        System.out.println("Attack starts!");
+
+                        //enter fight
+
+                    }else{
+                        System.out.println("There is no monsters in your attack range.");
+                    }
+
                 }
                 alreadyMoved = true;
             } else if ("m".equalsIgnoreCase(s)) {
@@ -94,6 +107,7 @@ public class GameController extends RpgGame
                     this.playerTeam.getHero(integer).disPlay();
                 }
             }
+
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
                 if(playerTeam.getHeroID(hero) == 2){
@@ -132,6 +146,7 @@ public class GameController extends RpgGame
         System.out.println("w = move up | s = move down | a = move left | d = move right");
         System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
+        System.out.println("k = attack");
         System.out.println("q = quit the game");
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
     }

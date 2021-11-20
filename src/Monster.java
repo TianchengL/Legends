@@ -63,6 +63,20 @@ public abstract class Monster extends Character{
         return num < dodgeChance * 0.01;
     }
 
+    @Override
+    public boolean canAttack(Team playerTeam) {
+        for(Hero hero: ((PlayerTeam) playerTeam).getTeam().values()){
+            //a monster is on the upper row of the hero (left, up, or right)
+            if(this.getRow() - hero.getRow() == -1 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
+                return true;
+            }
+            //a monster is on the same row of the hero (left, same cell, or right)
+            else if(this.getRow() - hero.getRow() == 0 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //return true if this monster still alive
     public boolean isAlive(){
