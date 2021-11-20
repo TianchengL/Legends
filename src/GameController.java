@@ -49,33 +49,34 @@ public class GameController extends RpgGame
     //player game according to user input
     public void playGame() {
         Hero hero = this.heroes.get(0);
+        boolean alreadyMoved = false;
         while (true) {
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
             String s = this.input.next();
-            if ("w".equalsIgnoreCase(s)) {
-                //change playerteam to hero
-                int row = hero.getRow() - 1;
-                int col = hero.getCol();
-                hero.makeMove(this.playerTeam, cells, hero,  row, col);
-            }
-            else if ("s".equalsIgnoreCase(s)) {
-                int row = hero.getRow() + 1;
-                int col = hero.getCol();
-                hero.makeMove(this.playerTeam, cells, hero,  row, col);
-            }
-            else if ("a".equalsIgnoreCase(s)) {
-                int row = hero.getRow();
-                int col = hero.getCol() - 1;
-                hero.makeMove(this.playerTeam, cells, hero,  row, col);
-            }
-            else if ("d".equalsIgnoreCase(s)) {
-                int row = hero.getRow();
-                int col = hero.getCol() + 1;
-                hero.makeMove(this.playerTeam, cells, hero,  row, col);
-            }
-            else if ("m".equalsIgnoreCase(s)) {
+
+            if(!alreadyMoved) {
+                if ("w".equalsIgnoreCase(s)) {
+                    //change playerteam to hero
+                    int row = hero.getRow() - 1;
+                    int col = hero.getCol();
+                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                } else if ("s".equalsIgnoreCase(s)) {
+                    int row = hero.getRow() + 1;
+                    int col = hero.getCol();
+                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                } else if ("a".equalsIgnoreCase(s)) {
+                    int row = hero.getRow();
+                    int col = hero.getCol() - 1;
+                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                } else if ("d".equalsIgnoreCase(s)) {
+                    int row = hero.getRow();
+                    int col = hero.getCol() + 1;
+                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                }
+                alreadyMoved = true;
+            } else if ("m".equalsIgnoreCase(s)) {
                 if (cells[hero.getRow()][hero.getCol()] instanceof HeroNexusCell) {
                     this.trading(this.input, hero);
                 }
@@ -100,6 +101,7 @@ public class GameController extends RpgGame
                 }else{
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
+                alreadyMoved = false;
                 //monster make move
 
             }
