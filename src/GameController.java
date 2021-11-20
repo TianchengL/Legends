@@ -38,11 +38,14 @@ public class GameController extends RpgGame
         heroes.get(0).setHeroPos(map[map.length-1][0], "H1", map.length - 1, 0 );
         heroes.get(1).setHeroPos(map[map.length-1][3], "H2", map.length - 1, 3 );
         heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
+        heroes.get(0).setCellExplored(map, map.length - 1, 0);
+        heroes.get(1).setCellExplored(map, map.length - 1, 3);
+        heroes.get(2).setCellExplored(map, map.length - 1, 6);
 
         //initialize monster pos
-        monsters.get(0).setMonsterPos(map[0][0], "M", 0, 0);
-        monsters.get(1).setMonsterPos(map[0][3], "M", 0, 3);
-        monsters.get(2).setMonsterPos(map[0][6], "M", 0, 6);
+        monsters.get(0).setMonsterPos(map[0][0], "M1", 0, 0);
+        monsters.get(0).setMonsterPos(map[0][3], "M2", 0, 3);
+        monsters.get(0).setMonsterPos(map[0][6], "M3", 0, 6);
 
     }
 
@@ -53,10 +56,9 @@ public class GameController extends RpgGame
         boolean alreadyMoved = false;
         while (true) {
             System.out.println();
-            System.out.println("Monsters move first");
-            System.out.println();
-            System.out.println("In hero "+hero.name+ "'s round");
             this.board.printBoard();
+            System.out.println("Hero "+hero.name+ "'s round");
+            playerTeam.displayName();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
             String s = this.input.next();
@@ -79,15 +81,25 @@ public class GameController extends RpgGame
                     int row = hero.getRow();
                     int col = hero.getCol() + 1;
                     hero.makeMove(this.playerTeam, cells, hero, row, col);
-                }  //attack
+                } else if ("t".equalsIgnoreCase(s)){
+                    System.out.println("Please choose row of the cell");
+                    String row = UtilCheckInput.checkInput(input, 1, 8);
+                    System.out.println("Please choose col of the cell");
+                    String col = UtilCheckInput.checkInput(input, 1, 8);
+                    int r = Integer.parseInt(row) - 1;
+                    int c = Integer.parseInt(col) - 1;
+                    if(!hero.telePort(cells, r, c, this.playerTeam, hero))
+                        continue;
+                }
+                //attack
                 else if ("k".equalsIgnoreCase(s)){
                     if(hero.canAttack(monsterTeam)){
                         System.out.println("Attack starts!");
-
                         //enter fight
 
                     }else{
                         System.out.println("There is no monsters in your attack range.");
+                        continue;
                     }
 
                 }
@@ -113,36 +125,21 @@ public class GameController extends RpgGame
 
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
-                if (playerTeam.getHeroID(hero) == 2) {
+                if(playerTeam.getHeroID(hero) == 2){
                     hero = playerTeam.getHero(0);
-                } else {
+                }else{
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
                 //monster make move
-                int index = playerTeam.getHeroID(hero) -1;
-                Monster m = monsters.get(index);
-                int mrow = m.getRow();
-                int mcol = m.getCol();
-                m.makeMove(cells,mrow+1, mcol);
-                //attack if any hero in attack range
-                if(m.canAttack(playerTeam)){
-                    m.attack(playerTeam.getHero(index));
-                }
-                else{
-                    System.out.println("Time for next hero's turn");
-                }
-
 
             }
-
             else {
                 if ("q".equalsIgnoreCase(s)) {
                     break;
                 }
                 System.out.println("\nInvalid Input!\n");
             }
-
         }
         System.out.println("Good Bye!");
     }
@@ -162,6 +159,7 @@ public class GameController extends RpgGame
 
     private void showMapInfo() {
         System.out.println("w = move up | s = move down | a = move left | d = move right");
+        System.out.println("t = teleport to selected cell");
         System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
         System.out.println("k = attack");

@@ -123,16 +123,4 @@ public class PlayerTeam extends Player implements Team
         this.col = col;
     }
 
-
-//    @Override
-//    public Hero makeTurn(int i) {
-//        for (Integer index : team.keySet()) {
-//            if(i == getTeamSize()-1){
-//                return team.get(0);
-//            }else{
-//                team.get(i+1);
-//            }
-//
-//        }
-//    }
 }
