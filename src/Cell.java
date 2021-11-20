@@ -47,6 +47,9 @@ public class Cell
 
     //used to set Hero and monster's position
     //pos = 0 represent left of the cell, 1 is right of the cell
+    public void setCell(String str, int row, int col){
+        this.pos[row][col] = str;
+    }
     public void setCellHeroPos(String hero){
         this.pos[1][1] = " " + hero;
     }

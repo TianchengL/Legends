@@ -13,7 +13,7 @@ public class MonsterTeam
 {
     public List<Monster> monster_team;
 
-    public MonsterTeam(final PlayerTeam playerTeam) {
+    public MonsterTeam(PlayerTeam playerTeam) {
         Map<Integer, Hero> heroes = playerTeam.getTeam();
         //find the highest level of hero in team
         int highestLevel = heroes.get(0).getLevel();

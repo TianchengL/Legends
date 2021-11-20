@@ -23,6 +23,18 @@ public abstract class Monster extends Character{
         this.HP = 100 * this.level;
     }
 
+    //set current monster pos
+    public void setMonsterPos(Cell cell, String name, int row, int col){
+        cell.setCellMonPos(name);
+        this.setRow(row);
+        this.setCol(col);
+    }
+
+    //monster move
+    public void makeMove(){
+
+    }
+
     //attack opponent
     public void attack(Character op){
         if(op instanceof Hero){

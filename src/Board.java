@@ -1,10 +1,3 @@
-import sun.misc.CEFormatException;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 /**
  * Board object used to init bunch of cells
  * print cells on command line
@@ -72,8 +65,7 @@ public class Board {
                 numBush--;
                 size--;
             }else if( cells[r][c] == null){
-                cells[r][c] = new CommonCell("P");
-               // numPlain--;
+                cells[r][c] = new PlainCell("P");
                 size--;
             }
         }
@@ -160,28 +152,23 @@ public class Board {
 
     //print current board
     public void printBoard(){
-//        for( int r = 0; r < row; r++){
-//
-//            for( int c = 0; c < col; c++) {
-//
-////                if(cells[r][c] instanceof InaccessibleCell){
-////                    cells[r][c].printCell();
-////                }else if(cells[r][c] instanceof MarketCell && !cells[r][c].getValue().equals("P")){
-////                    cells[r][c].printCell();
-////                }else{
-////                    cells[r][c].printCell();
-////                }
-//
-//               cells[r][c].printCell();
-//                //System.out.print("  ");
-//            }
-//            //System.out.println();
-//        }
         for(int r = 0; r < row; r++){
             for(int cellR = 0; cellR < 3; cellR++){
                 for(int c = 0; c < col; c++){
                     for(int cellC = 0; cellC < 5; cellC++){
-                        System.out.print(cells[r][c].getPos()[cellR][cellC]);
+
+                        String res = cells[r][c].getPos()[cellR][cellC];
+
+                        if(cells[r][c] instanceof InaccessibleCell){
+                            System.out.print(ANSI_RED + res + ANSI_RESET);
+                        }else if(cells[r][c] instanceof MonsterNexusCell || cells[r][c] instanceof HeroNexusCell ){
+                            System.out.print(ANSI_CYAN + res + ANSI_RESET);
+                        }else if(cells[r][c] instanceof KoulouCell ){
+                            System.out.print(ANSI_PURPLE + res + ANSI_RESET);
+                        }else if(cells[r][c] instanceof BushCell){
+                            System.out.print(ANSI_GREEN + res + ANSI_RESET);
+                        }else
+                            System.out.print(cells[r][c].getPos()[cellR][cellC]);
                     }
                     System.out.print("  ");
                 }

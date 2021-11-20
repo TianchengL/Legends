@@ -17,6 +17,15 @@ public class PlayerTeam extends Player
         this.team = new HashMap<>();
     }
 
+    public int getHeroID(Hero hero){
+        for (Integer id : this.team.keySet()) {
+            if(team.get(id) == hero){
+                return id;
+            }
+        }
+        return -1;
+    }
+
     //when hero win a fight, it will gain some money and exp
     public void battleBonus(int level) {
         for (Integer index : this.team.keySet()) {
@@ -74,6 +83,16 @@ public class PlayerTeam extends Player
         System.out.println("\n");
     }
 
+    //check if all heroes has reached monster base, if so hero win
+    public boolean isWin(){
+        for (Integer i : team.keySet()) {
+            if(!team.get(i).isReachEnemyBase()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     //getter and setter
     public int getTeamSize() {
         return this.team.size();
@@ -104,33 +123,6 @@ public class PlayerTeam extends Player
         this.col = col;
     }
 
-    public String checkPosType(Cell[][] cells) {
-        if (cells[this.row][this.col] instanceof InaccessibleCell) {
-            return "#";
-        }
-        if (cells[this.row][this.col] instanceof HeroNexusCell) {
-            return "HN";
-        }
-        if(cells[this.row][this.col] instanceof CaveCell){
-            return "C";
-        }
-        if(cells[this.row][this.col] instanceof KoulouCell){
-            return "K";
-        }
-        if(cells[this.row][this.col] instanceof BushCell){
-            return "B";
-        }
-        if(cells[this.row][this.col] instanceof CommonCell){
-            return "P";
-        }
-
-        if(cells[this.row][this.col] instanceof MonsterNexusCell){
-            return "MN";
-        }
-
-
-        return " ";
-    }
 
 //    @Override
 //    public Hero makeTurn(int i) {

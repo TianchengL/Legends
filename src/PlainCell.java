@@ -1,9 +1,9 @@
 /**
  * common cell class extend cell
  */
-public class CommonCell extends Cell
+public class PlainCell extends Cell
 {
-    public CommonCell(String value) {
+    public PlainCell(String value) {
         super(value);
     }
 

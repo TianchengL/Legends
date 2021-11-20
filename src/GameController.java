@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,89 +10,98 @@ public class GameController extends RpgGame
 {
     private final Board board;
     private final Scanner input;
-    private final PlayerTeam team;
+    private final PlayerTeam playerTeam;
+    private MonsterTeam monsterTeam;
     private final Market market;
     private final Map<Integer, Hero> heroes;
+    private List<Monster> monsters;
 
     public GameController(Scanner input, HeroSelectionController hs) {
         this.input = input;
-        this.team = hs.getPlayerTeam();
+        this.playerTeam = hs.getPlayerTeam();
+        this.monsterTeam = new MonsterTeam(this.playerTeam);
         this.board = new Board(8,8);
         this.market = new Market();
-        this.heroes = team.getTeam();
+        this.heroes = playerTeam.getTeam();
+        this.monsters = monsterTeam.getMonsters();
+
         this.init();
     }
 
     //init map, random set player to a common cell or market cell
     public void init() {
         Cell[][] map = this.board.getCells();
-        this.board.setCells("X", 7, 0);
-        this.team.setRowCol(7, 0);
+//        this.board.setCells("X", 7, 0);
+//        this.playerteam.setRowCol(7, 0);
 
         //set each hero initial pos
-        heroes.get(0).setHeroPos(0, 0);
-        heroes.get(1).setHeroPos(3,3);
-        heroes.get(2).setHeroPos(6,6);
+        heroes.get(0).setHeroPos(map[map.length-1][0], "H1", map.length - 1, 0 );
+        heroes.get(1).setHeroPos(map[map.length-1][3], "H2", map.length - 1, 3 );
+        heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
+
+        //initialize monster pos
+        monsters.get(0).setMonsterPos(map[0][0], "M1", 0, 0);
+        monsters.get(0).setMonsterPos(map[0][3], "M1", 0, 3);
+        monsters.get(0).setMonsterPos(map[0][6], "M1", 0, 6);
+
     }
 
     //player game according to user input
     public void playGame() {
+        Hero hero = this.heroes.get(0);
         while (true) {
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
             String s = this.input.next();
             if ("w".equalsIgnoreCase(s)) {
-                //change team to hero
-                int row = this.team.getRow() - 1;
-                int col = this.team.getCol();
-                this.makeMove(cells, row, col);
+                //change playerteam to hero
+                int row = hero.getRow() - 1;
+                int col = hero.getCol();
+                hero.makeMove(this.playerTeam, cells, hero,  row, col);
             }
             else if ("s".equalsIgnoreCase(s)) {
-                int row = this.team.getRow() + 1;
-                int col = this.team.getCol();
-                this.makeMove(cells, row, col);
+                int row = hero.getRow() + 1;
+                int col = hero.getCol();
+                hero.makeMove(this.playerTeam, cells, hero,  row, col);
             }
             else if ("a".equalsIgnoreCase(s)) {
-                int row = this.team.getRow();
-                int col = this.team.getCol() - 1;
-                this.makeMove(cells, row, col);
+                int row = hero.getRow();
+                int col = hero.getCol() - 1;
+                hero.makeMove(this.playerTeam, cells, hero,  row, col);
             }
             else if ("d".equalsIgnoreCase(s)) {
-                int row = this.team.getRow();
-                int col = this.team.getCol() + 1;
-                this.makeMove(cells, row, col);
+                int row = hero.getRow();
+                int col = hero.getCol() + 1;
+                hero.makeMove(this.playerTeam, cells, hero,  row, col);
             }
             else if ("m".equalsIgnoreCase(s)) {
-                if (cells[this.team.getRow()][this.team.getCol()] instanceof HeroNexusCell) {
-                    System.out.println("Which hero want to enter market? Enter Hero ID");
-                    this.team.displayName();
-                    int id = Integer.parseInt(UtilCheckInput.checkInput(this.input,
-                            1, this.team.getTeamSize()));
-                    this.trading(this.input, this.team.getHero(id - 1));
+                if (cells[hero.getRow()][hero.getCol()] instanceof HeroNexusCell) {
+                    this.trading(this.input, hero);
                 }
                 else {
                     System.out.println("This is not a market Cell!");
                 }
             }
             else if ("e".equalsIgnoreCase(s)) {
-                System.out.println("Please select ID of hero to enter his inventory ");
-                this.team.displayName();
-                int id = Integer.parseInt(UtilCheckInput.checkInput(this.input, 1,
-                        this.team.getTeamSize()));
-                Hero hero = this.team.getHero(id - 1);
+                System.out.println("Checking Inventory...");
                 hero.getInventory().changeEquipment(this.input);
             }
             else if ("i".equalsIgnoreCase(s)) {
-                for (Integer integer : this.team.getTeam().keySet()) {
-                    System.out.println(this.team.getHero(integer).getName());
-                    this.team.getHero(integer).disPlay();
+                for (Integer integer : this.playerTeam.getTeam().keySet()) {
+                    System.out.println(this.playerTeam.getHero(integer).getName());
+                    this.playerTeam.getHero(integer).disPlay();
                 }
             }
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
-
+                if(playerTeam.getHeroID(hero) == 2){
+                    hero = playerTeam.getHero(0);
+                }else{
+                    hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
+                }
                 //monster make move
+
             }
             else {
                 if ("q".equalsIgnoreCase(s)) {
@@ -111,70 +121,19 @@ public class GameController extends RpgGame
     //0.5 chance to enter fight
     public void fight(Scanner input) {
         if (Math.random() > 0.5) {
-            Fight f = new Fight(this.team);
+            Fight f = new Fight(this.playerTeam);
             f.roundPlay(input);
         }
     }
 
     private void showMapInfo() {
         System.out.println("w = move up | s = move down | a = move left | d = move right");
+        System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
         System.out.println("q = quit the game");
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
     }
 
-    //current turn hero move to next cell
-    public void makeMove(Cell[][] cells, int row,int col) {
-        if (this.checkBorder(row, col)) {
-            if (cells[row][col] instanceof InaccessibleCell) {
-                System.out.println("cannot enter # (inaccessible)!");
-            }
-            else if (cells[row][col] instanceof CommonCell) {
-                //X refers to hero
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                this.fight(this.input);
-            }
-            else if (cells[row][col] instanceof CaveCell) {
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                this.fight(this.input);
-            }
-            else if (cells[row][col] instanceof KoulouCell) {
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                this.fight(this.input);
-            }
-            else if (cells[row][col] instanceof BushCell) {
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                this.fight(this.input);
-            }
-            else if (cells[row][col] instanceof HeroNexusCell) {
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                System.out.println("You have entered a market place!");
-            }
-            else if (cells[row][col] instanceof MonsterNexusCell) {
-                this.board.setCells("X", row, col);
-                this.board.setCells(this.team.checkPosType(cells), this.team.getRow(), this.team.getCol());
-                this.team.setRowCol(row, col);
-                this.end();
-            }
-        }
-        else {
-            System.out.println("You cannot move to outside of the board!");
-        }
-    }
-
-    private boolean checkBorder(int row, int col) {
-        return row < 8 && row >= 0 && col < 8 && col >= 0;
-    }
 
     //initial player position cannot be blocked in all direction
     private int[] validPlayerPos(Cell[][] cells) {
@@ -199,7 +158,7 @@ public class GameController extends RpgGame
 
     public void end(){
         System.out.println("Congratulation!");
-        System.out.println("Hero team have destroy the monster's nexus");
+        System.out.println("Hero playerteam have destroy the monster's nexus");
         System.out.println("The game is over, Thanks for playing");
         System.exit(0);
     }

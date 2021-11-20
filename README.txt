@@ -15,7 +15,7 @@ Files
 <Cell.java> - < abstract class for each cell, inaccessible, marketCell and common cell needs to extend this class>
 <Character.java> - < an abstract class for hero and monster or any other character in game>
 <CharacterFactory.java> - <return a list of hero or monster contain with singleton pattern>
-<CommonCell.java> - <common cell class extend cell>
+<PlainCell.java> - <common cell class extend cell>
 <DexterityAndAgility.java> - <concrete class for Skill which could be injected to needed classes as strategy pattern. Skill favored on dexterity and agility>
 <StrengthAndAgility.java> - <needs to init by hero who favored skill are strength and agility>
 <StrengthAndDexterity.java> - <needs to init by hero who favored skill are strength and dexterity>

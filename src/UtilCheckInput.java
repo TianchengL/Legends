@@ -23,4 +23,8 @@ public class UtilCheckInput
         }
         return in >= lowerBound && in <= upperBound;
     }
+
+    public static boolean checkBorder(int row, int col) {
+        return row < 8 && row >= 0 && col < 8 && col >= 0;
+    }
 }

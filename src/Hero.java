@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Map;
 
 /**
  * abstract class for all three types of hero
@@ -22,10 +21,12 @@ public abstract class Hero extends Character{
     //hero current equipped weapon and armor
     private Weapon weapon;
     private Armor armor;
-    private boolean isTurn;
+
+    //true if this hero has reached enemy nexus
+    private boolean reachEnemyBase;
 
     //current hero's position
-    private int row, col;
+    //private int row, col;
 
     enum HeroType{
         WARRIORS, SORCERERS, PALADINS;
@@ -195,6 +196,43 @@ public abstract class Hero extends Character{
     }
 
 
+    //current turn hero move to next cell
+    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col) {
+        //current turn hero num
+        String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
+
+        if (UtilCheckInput.checkBorder(row, col)) {
+            if (cells[row][col] instanceof InaccessibleCell) {
+                System.out.println("cannot enter # (inaccessible)!");
+            }
+            else if (cells[row][col] instanceof HeroNexusCell) {
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+                System.out.println("You have entered a market place!");
+            }
+            else if (cells[row][col] instanceof MonsterNexusCell) {
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+                System.out.println("Congratulation!");
+                System.out.println("This Hero have destroy the monster's nexus");
+                this.setReachEnemyBase(true);
+            }else{
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+            }
+        }
+        else {
+            System.out.println("You cannot move to outside of the board!");
+        }
+    }
+
+
     //getter and setter
     public double getMana() {
         return mana;
@@ -259,25 +297,60 @@ public abstract class Hero extends Character{
     public void setID(int ID) {
         this.ID = ID;
     }
-    public abstract HeroType getType();
-    public int getRow() {
-        return row;
+    public void setReachEnemyBase(boolean reachEnemyBase) {
+        this.reachEnemyBase = reachEnemyBase;
     }
-    public void setRow(int row) {
-        this.row = row;
-    }
-    public int getCol() {
-        return col;
-    }
-    public void setCol(int col) {
-        this.col = col;
+    public boolean isReachEnemyBase() {
+        return reachEnemyBase;
     }
 
-    //set hero position
-    //pos represent hero is in current cell's left or w
-    public void setHeroPos(int row, int col){
-        this.row = row;
-        this.col = col;
+    public abstract HeroType getType();
+//    public int getRow() {
+//        return row;
+//    }
+//    public void setRow(int row) {
+//        this.row = row;
+//    }
+//    public int getCol() {
+//        return col;
+//    }
+//    public void setCol(int col) {
+//        this.col = col;
+//    }
+
+//    //set hero position
+    public void setHeroPos(Cell cell, String name, int row, int col){
+        cell.setCellHeroPos(name);
+        this.setRow(row);
+        this.setCol(col);
+    }
+
+    public String checkPosType(Cell[][] cells) {
+        if (cells[this.getRow()][this.getCol()] instanceof InaccessibleCell) {
+            return "#";
+        }
+        if (cells[this.getRow()][this.getCol()] instanceof HeroNexusCell) {
+            return "HN";
+        }
+        if(cells[this.getRow()][this.getCol()] instanceof CaveCell){
+            return "C";
+        }
+        if(cells[this.getRow()][this.getCol()] instanceof KoulouCell){
+            return "K";
+        }
+        if(cells[this.getRow()][this.getCol()] instanceof BushCell){
+            return "B";
+        }
+        if(cells[this.getRow()][this.getCol()] instanceof PlainCell){
+            return "P";
+        }
+
+        if(cells[this.getRow()][this.getCol()] instanceof MonsterNexusCell){
+            return "MN";
+        }
+
+
+        return " ";
     }
 
 

@@ -4,6 +4,10 @@
 public abstract class Character {
 
     public String name;
+    //current character position
+    private int row;
+    private int col;
+
 
     public Character(String name){
         this.name = name;
@@ -31,9 +35,12 @@ public abstract class Character {
     public void setCol(int col) {
         this.col = col;
     }
+    public void setPos(int row, int col){
+        this.row = row;
+        this.col = col;
+    }
 
-    private int row;
-    private int col;
+
 
    // public abstract boolean canAttack();   //judge if there is an opposite character in its attack range
 
