@@ -125,6 +125,14 @@ public class GameController extends RpgGame
                 int mrow = m.getRow();
                 int mcol = m.getCol();
                 m.makeMove(cells,mrow+1, mcol);
+                //attack if any hero in attack range
+                if(m.canAttack(playerTeam)){
+                    m.attack(playerTeam.getHero(index));
+                }
+                else{
+                    System.out.println("Time for next hero's turn");
+                }
+
 
             }
 
