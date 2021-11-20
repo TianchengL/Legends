@@ -13,8 +13,8 @@ public class Main
         final Scanner input = new Scanner(System.in);
         System.out.println("Welcome To Legends!");
         String filepath = "backGroundMusic.wav";
-        Audio musicObject = new Audio();
-        musicObject.playMusic(filepath);
+//        Audio musicObject = new Audio();
+//        musicObject.playMusic(filepath);
         final HeroSelectionController hs = new HeroSelectionController(input);
         final GameController g = new GameController(input, hs);
         g.playGame();
