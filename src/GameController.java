@@ -48,6 +48,7 @@ public class GameController extends RpgGame
 
     //player game according to user input
     public void playGame() {
+
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
         while (true) {
