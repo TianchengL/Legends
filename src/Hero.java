@@ -296,7 +296,7 @@ public abstract class Hero extends Character{
             cells[row][col-1].setExplored(true);
         }
         //if current cell right is not out of bound and is not block cel
-        if(col + 1 >= cells[0].length &&  !(cells[row][col+1] instanceof InaccessibleCell)){
+        if(col + 1 <= cells[0].length &&  !(cells[row][col+1] instanceof InaccessibleCell)){
             cells[row][col+1].setExplored(true);
         }
     }
