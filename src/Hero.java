@@ -261,7 +261,7 @@ public abstract class Hero extends Character{
 
 
     //current turn hero move to next cell
-    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col,double kBooost,double cBoost,double bBoost) {
+    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col,double kBoost,double bBoost,double cBoost) {
         //current turn hero num
         String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
         if (UtilCheckInput.checkBorder(row, col)) {
@@ -289,7 +289,7 @@ public abstract class Hero extends Character{
                 this.setReachEnemyBase(true);
             }else if(cells[row][col] instanceof BushCell){
                 System.out.println("The dexterity of "+ hero.getName() +" has boosted" );
-                hero.setStrength(hero.getStrength()-kBooost);
+                hero.setStrength(hero.getStrength()-kBoost);
                 hero.setAgility(hero.getAgility() - cBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
@@ -300,7 +300,7 @@ public abstract class Hero extends Character{
             }
             else if(cells[row][col] instanceof CaveCell){
                 System.out.println("The agility of "+ hero.getName() +" has boosted" );
-                hero.setStrength(hero.getStrength()-kBooost);
+                hero.setStrength(hero.getStrength()-kBoost);
                 hero.setDexterity(hero.getDexterity() - bBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
@@ -323,7 +323,7 @@ public abstract class Hero extends Character{
             else{
                 hero.setDexterity(hero.getDexterity() - bBoost);
                 hero.setAgility(hero.getAgility() - cBoost);
-                hero.setStrength(hero.getStrength()-kBooost);
+                hero.setStrength(hero.getStrength()-kBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
