@@ -56,17 +56,22 @@ public class GameController extends RpgGame
             System.out.println();
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
+            System.out.println("In hero "+hero.name+ "'s round");
+            System.out.println();
             this.showMapInfo();
-            if(count% 12 == 0){
+            if(count% 2 == 0){
+                Cell[][] map = this.board.getCells();
                 MonsterTeam newMonsters = new MonsterTeam(playerTeam);
                 List<Monster> newMTeam = newMonsters.getMonsters();
+                newMTeam.get(0).setMonsterPos(cells[0][0], "M", 0, 0);
+                newMTeam.get(1).setMonsterPos(cells[0][3], "M", 0, 3);
+                newMTeam.get(2).setMonsterPos(cells[0][6], "M", 0, 6);
                 for(int i=0; i< newMTeam.size();i++){
                     Monster m = newMTeam.get(i);
                     monsters.add(m);
                 }
                 System.out.println("The monsters have respawned");
             }
-            System.out.println("In hero "+hero.name+ "'s round");
             String s = this.input.next();
 
             if(!alreadyMoved) {
@@ -89,8 +94,15 @@ public class GameController extends RpgGame
                     hero.makeMove(this.playerTeam, cells, hero, row, col);
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
+                    //hero attack
+                    System.out.println("Attack Monster!");
+                    Monster monster = hero.canAttack(this.playerTeam);
+                    hero.attack(monster);
 
-
+                }else if("c".equalsIgnoreCase(s)){
+                    System.out.println("Cast Spell!");
+                    Monster monster = hero.canAttack(this.playerTeam);
+                    hero.castSpell(input, monster);
                 }
                 alreadyMoved = true;
             } else if ("m".equalsIgnoreCase(s)) {
@@ -114,6 +126,7 @@ public class GameController extends RpgGame
 
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
+                System.out.println(count);
                 if (playerTeam.getHeroID(hero) == 2) {
                     //If all heroes made a move, then all monsters move forward
                     for(int i =0; i< monsters.size();i++){
@@ -123,6 +136,7 @@ public class GameController extends RpgGame
                         m.makeMove(monsterTeam,cells,row+1,col);
                     }
                     hero = playerTeam.getHero(0);
+                    count++;
                 } else {
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
@@ -150,18 +164,15 @@ public class GameController extends RpgGame
     }
 
     //0.5 chance to enter fight
-    public void fight(Scanner input) {
-        if (Math.random() > 0.5) {
-            Fight f = new Fight(this.playerTeam);
-            f.roundPlay(input);
-        }
+    public void attack(Scanner input) {
+
     }
 
     private void showMapInfo() {
         System.out.println("w = move up | s = move down | a = move left | d = move right");
         System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
-        System.out.println("k = attack");
+        System.out.println("k = attack | c = cast spell");
         System.out.println("q = quit the game");
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
     }

@@ -6,7 +6,7 @@ import java.util.Scanner;
  */
 public abstract class RpgGame extends Game
 {
-    abstract void fight(Scanner p0);
+    //abstract void attack(Scanner p0);
 
     abstract void trading(Scanner p0, Hero p1);
 

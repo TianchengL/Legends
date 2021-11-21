@@ -40,10 +40,10 @@ public class Board {
                 if(i == 0 ){
                     this.cells[i][j] = new MonsterNexusCell("N");
                 }
-                if(i == 7){
+                else if(i == 7){
                     this.cells[i][j] = new HeroNexusCell("N");
                 }
-                if(j == 2 || j == 5){
+                else if(j == 2 || j == 5){
                     this.cells[i][j] = new InaccessibleCell("I");
                 }
             }

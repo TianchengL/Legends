@@ -99,6 +99,18 @@ public abstract class Monster extends Character{
         return this.getHP() > 0;
     }
 
+
+    public void displayStats() {
+        System.out.println("Monster Stats");
+        System.out.format("%-18s %7s %10s %12s %18s %8s%n", "Name", "HP", "Damage", "Defense", "Dodge Chance", "Level");
+        System.out.println("======================================================================================");
+
+        System.out.format("%-18s %7s %10s %12s %18s %8s%n", this.getName(), this.getHP(),
+                    this.getDamage(), this.getDefenseStats(), (int)this.getDodgeChance(), this.getLevel());
+
+
+    }
+
     //getter and setter
     public int getLevel() {
         return level;
