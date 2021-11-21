@@ -78,7 +78,7 @@ public abstract class Monster extends Character{
         double num = Math.random();
         return num < dodgeChance * 0.01;
     }
- 
+
     @Override
     public Hero canAttack(Team playerTeam) {
         for(Hero hero: ((PlayerTeam) playerTeam).getTeam().values()){

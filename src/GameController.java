@@ -91,8 +91,6 @@ public class GameController extends RpgGame
                 else if ("k".equalsIgnoreCase(s)){
 
 
-
-
                 }
                 alreadyMoved = true;
             } else if ("m".equalsIgnoreCase(s)) {
