@@ -236,15 +236,15 @@ public class GameController extends RpgGame
 
     //Check hero current boost state, if there is any boost, remove it before make a move
     public void checkBoost(Hero h, double k, double c, double b){
-        if(h.getB() == true){
+        if(h.getB()){
             h.setDexterity(h.getDexterity() - b);
             h.setB(false);
         }
-        else if (h.getC() == true){
+        else if (h.getC()){
             h.setAgility(h.getAgility() - c);
             h.setC(false);
         }
-        else if (h.getK() == true){
+        else if (h.getK()){
             h.setStrength(h.getStrength() - k);
             h.setK(false);
         }

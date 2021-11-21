@@ -299,8 +299,8 @@ public abstract class Hero extends Character{
                 System.out.println("The dexterity of "+ hero.getName() +" has boosted" );
                 //when hero receive boost, turn the boost state to true
                 hero.setB(true);
-                hero.setStrength(hero.getStrength()-kBoost);
-                hero.setAgility(hero.getAgility() - cBoost);
+
+                hero.setDexterity(hero.getDexterity() + bBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
@@ -311,8 +311,8 @@ public abstract class Hero extends Character{
             else if(cells[row][col] instanceof CaveCell){
                 System.out.println("The agility of "+ hero.getName() +" has boosted" );
                 hero.setC(true);
-                hero.setStrength(hero.getStrength()-kBoost);
-                hero.setDexterity(hero.getDexterity() - bBoost);
+
+                hero.setAgility(hero.getAgility() + cBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
@@ -323,8 +323,8 @@ public abstract class Hero extends Character{
             else if(cells[row][col] instanceof KoulouCell){
                 System.out.println("The strength of "+ hero.getName() +" has boosted" );
                 hero.setK(true);
-                hero.setDexterity(hero.getDexterity() - bBoost);
-                hero.setAgility(hero.getAgility() - cBoost);
+
+                hero.setStrength(hero.getStrength()+kBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
@@ -333,9 +333,9 @@ public abstract class Hero extends Character{
                 setCellExplored(cells, row, col);
             }
             else{
-                hero.setDexterity(hero.getDexterity() - bBoost);
-                hero.setAgility(hero.getAgility() - cBoost);
-                hero.setStrength(hero.getStrength()-kBoost);
+//                hero.setDexterity(hero.getDexterity() - bBoost);
+//                hero.setAgility(hero.getAgility() - cBoost);
+//                hero.setStrength(hero.getStrength()-kBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos

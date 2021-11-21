@@ -5,9 +5,7 @@ import java.util.Map;
  * player team is also player
  * which contains several amount of heroes
  */
-public class PlayerTeam extends Player implements Team
-
-{
+public class PlayerTeam extends Team {
     private int row;
     private int col;
     private final Map<Integer, Hero> team;

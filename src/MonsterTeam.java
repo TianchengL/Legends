@@ -1,7 +1,5 @@
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +7,15 @@ import java.util.List;
  * store same amount of monster with heroes
  * level should be equal to the highest level of hero
  */
-public class MonsterTeam implements Team
-{
+public class MonsterTeam extends Team{
+
+    public String name;
     public List<Monster> monster_team;
     private int winCondition = 0;
 
 
     public MonsterTeam(PlayerTeam playerTeam) {
+
         Map<Integer, Hero> heroes = playerTeam.getTeam();
         //find the highest level of hero in team
         int highestLevel = heroes.get(0).getLevel();
