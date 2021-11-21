@@ -65,25 +65,27 @@ public class GameController extends RpgGame
             this.showMapInfo();
             hero.showInfoBattle();
             String s = this.input.next();
-
+            double kBoost = hero.getStrength() * 0.1;
+            double bBoost = hero.getDexterity()*0.1;
+            double cBoost = hero.getAgility()*0.1;
             if(!alreadyMoved) {
                 if ("w".equalsIgnoreCase(s)) {
                     //change playerteam to hero
                     int row = hero.getRow() - 1;
                     int col = hero.getCol();
-                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 } else if ("s".equalsIgnoreCase(s)) {
                     int row = hero.getRow() + 1;
                     int col = hero.getCol();
-                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 } else if ("a".equalsIgnoreCase(s)) {
                     int row = hero.getRow();
                     int col = hero.getCol() - 1;
-                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 } else if ("d".equalsIgnoreCase(s)) {
                     int row = hero.getRow();
                     int col = hero.getCol() + 1;
-                    hero.makeMove(this.playerTeam, cells, hero, row, col);
+                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
                     //hero attack
