@@ -55,8 +55,9 @@ public class GameController extends RpgGame
 
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
+        boolean play = true;
         int countTurn = 0;
-        while (true) {
+        while (play) {
             System.out.println();
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
@@ -66,131 +67,153 @@ public class GameController extends RpgGame
             playerTeam.displayName();
             hero.disPlay();
             String s = this.input.next();
-            if(!alreadyMoved) {
-                if ("w".equalsIgnoreCase(s)) {
-                    //change playerteam to hero
-                    double kBoost = hero.getStrength() * 0.1;
-                    double bBoost = hero.getDexterity()*0.1;
-                    double cBoost = hero.getAgility()*0.1;
-                    ///check and remove the boost before make a move
-                    this.checkBoost(hero,kBoost,cBoost,bBoost);
-                    int row = hero.getRow() - 1;
-                    int col = hero.getCol();
-                    if(hero.canAttack(monsters) != null) {
-                        System.out.println("You cannot pass by a monster without attacking it!");
-                    } else{
-                        if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
-                    }
-                } else if ("s".equalsIgnoreCase(s)) {
-                    double kBoost = hero.getStrength() * 0.1;
-                    double bBoost = hero.getDexterity()*0.1;
-                    double cBoost = hero.getAgility()*0.1;
-                    this.checkBoost(hero,kBoost,cBoost,bBoost);
-                    int row = hero.getRow() + 1;
-                    int col = hero.getCol();
-                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
-                } else if ("a".equalsIgnoreCase(s)) {
-                    double kBoost = hero.getStrength() * 0.1;
-                    double bBoost = hero.getDexterity()*0.1;
-                    double cBoost = hero.getAgility()*0.1;
-                    this.checkBoost(hero,kBoost,cBoost,bBoost);
-                    int row = hero.getRow();
-                    int col = hero.getCol() - 1;
-                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
-                } else if ("d".equalsIgnoreCase(s)) {
-                    double kBoost = hero.getStrength() * 0.1;
-                    double bBoost = hero.getDexterity()*0.1;
-                    double cBoost = hero.getAgility()*0.1;
-                    this.checkBoost(hero,kBoost,cBoost,bBoost);
-                    int row = hero.getRow();
-                    int col = hero.getCol() + 1;
-                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
-                }  //attack
-                else if ("k".equalsIgnoreCase(s)){
-                    //hero attack
-                    if(hero.canAttack(monsters)!=null){
-                        hero.showInfoBattle();
-                        System.out.println(Message.fight);
-                        System.out.println("Attack Monster!");
-                        Monster monster = hero.canAttack(monsters);
-                        hero.attack(monster);
-                    }else {
-                        System.out.println("There is no monster in your attack range!");
-                        continue;
-                    }
-                }else if("c".equalsIgnoreCase(s)){
-                    System.out.println("Cast Spell!");
-                    if(hero.canAttack(monsters) != null){
-                        Monster monster = hero.canAttack(monsters);
-                        hero.castSpell(input, monster);
-                    }else{
-                        System.out.println("There is no monster in your attack range!");
-                        continue;
-                    }
-                }else if("t".equalsIgnoreCase(s)){
-                    System.out.println("Please select row you want to teleport");
-                    String r = UtilCheckInput.checkInput(input, 1, 8);
-                    System.out.println("Please select col you want teleport");
-                    String c = UtilCheckInput.checkInput(input, 1, 8);
-                    int row = Integer.parseInt(r) - 1;
-                    int col = Integer.parseInt(c) - 1;
-                    if(!hero.telePort(cells, row, col, playerTeam, hero))
-                        continue;
-                }else if("b".equalsIgnoreCase(s)){
-                    System.out.println("Back to base...");
-                    hero.backToBase(playerTeam, cells, hero);
-                }
-                alreadyMoved = true;
-            } else if ("m".equalsIgnoreCase(s)) {
-                if (cells[hero.getRow()][hero.getCol()] instanceof HeroNexusCell) {
-                    this.trading(this.input, hero);
-                }
-                else {
-                    System.out.println("This is not a market Cell!");
-                }
-            }
-            else if ("e".equalsIgnoreCase(s)) {
-                System.out.println("Checking Inventory...");
-                hero.getInventory().changeEquipment(this.input);
-            }
-            else if ("i".equalsIgnoreCase(s)) {
-                for (Integer integer : this.playerTeam.getTeam().keySet()) {
-                    System.out.println(this.playerTeam.getHero(integer).getName());
-                    this.playerTeam.getHero(integer).disPlay();
-                }
-            }
-            //finish current hero turn
-            else if ("f".equalsIgnoreCase(s)) {
-                countTurn++;
+            double kBoost = hero.getStrength() * 0.1;
+            double bBoost = hero.getDexterity()*0.1;
+            double cBoost = hero.getAgility()*0.1;
+            int row, col;
+            switch (s.toLowerCase()){
 
-                if (countTurn == 3) {
-                    countTurn = 0;
-                    roundNum++;
-                    this.addNewMonster(cells);
-                    //If all heroes made a move, then all monsters move forward
-
-                    List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
-                    this.actionAllMonsters(heroes, monsters, cells);
-
-                    //if hero die respawn in base
-                    if(!hero.isAlive()){
-                        hero.backToBase(playerTeam, cells, hero);
+                case "w":
+                    if(!alreadyMoved) {
+                        ///check and remove the boost before make a move
+                        this.checkBoost(hero, kBoost, cBoost, bBoost);
+                        row = hero.getRow() - 1;
+                        col = hero.getCol();
+                        if (hero.canAttack(monsters) != null) {
+                            System.out.println("You cannot pass by a monster without attacking it!");
+                        } else {
+                            if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost))
+                                continue;
+                            alreadyMoved = true;
+                        }
                     }
-                    //reset to first hero
-                    hero = playerTeam.getHero(0);
-                } else {
-                    hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
-                }
-                alreadyMoved = false;
-                //player team regain
-                playerTeam.regain();
-
-            } else {
-                if ("q".equalsIgnoreCase(s)) {
                     break;
-                }
-                System.out.println("\nInvalid Input!\n");
+                case "a":
+                    if(!alreadyMoved) {
+                        this.checkBoost(hero, kBoost, cBoost, bBoost);
+                        row = hero.getRow();
+                        col = hero.getCol() - 1;
+                        if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
+                        alreadyMoved = true;
+                    }
+                    break;
+                case "s":
+                    if(!alreadyMoved) {
+                        this.checkBoost(hero, kBoost, cBoost, bBoost);
+                        row = hero.getRow() + 1;
+                        col = hero.getCol();
+                        if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
+                        alreadyMoved = true;
+                    }
+                    break;
+                case "d":
+                    if(!alreadyMoved) {
+                        row = hero.getRow();
+                        col = hero.getCol() + 1;
+                        if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
+                        alreadyMoved = true;
+                    }
+                    break;
+                case "k":
+                    if(!alreadyMoved) {
+                        if (hero.canAttack(monsters) != null) {
+                            alreadyMoved = true;
+                            hero.showInfoBattle();
+                            System.out.println(Message.fight);
+                            System.out.println("Attack Monster!");
+                            Monster monster = hero.canAttack(monsters);
+                            hero.attack(monster);
+
+                        } else {
+                            System.out.println("There is no monster in your attack range!");
+                            continue;
+                        }
+                    }
+                    break;
+                case "c":
+                    if(!alreadyMoved) {
+                        System.out.println("Cast Spell!");
+                        if (hero.canAttack(monsters) != null) {
+
+                            Monster monster = hero.canAttack(monsters);
+                            hero.castSpell(input, monster);
+                            alreadyMoved = true;
+                        } else {
+                            System.out.println("There is no monster in your attack range!");
+                            continue;
+                        }
+                    }
+                    break;
+                case "t":
+                    if(!alreadyMoved) {
+                        System.out.println("Please select row you want to teleport");
+                        String r = UtilCheckInput.checkInput(input, 1, 8);
+                        System.out.println("Please select col you want teleport");
+                        String c = UtilCheckInput.checkInput(input, 1, 8);
+                        row = Integer.parseInt(r) - 1;
+                        col = Integer.parseInt(c) - 1;
+                        if (!hero.telePort(cells, row, col, playerTeam, hero)) continue;
+                        alreadyMoved = true;
+                    }
+                    break;
+                case "b":
+                    if(!alreadyMoved) {
+                        System.out.println("Back to base...");
+                        hero.backToBase(playerTeam, cells, hero);
+                        alreadyMoved = true;
+                    }
+                    break;
+                case "m":
+                    if (cells[hero.getRow()][hero.getCol()] instanceof HeroNexusCell) {
+                        this.trading(this.input, hero);
+                    }
+                    else {
+                        System.out.println("This is not a market Cell!");
+                    }
+                    break;
+                case "e":
+                    System.out.println("Checking Inventory...");
+                    hero.getInventory().changeEquipment(this.input);
+                    break;
+                case "i":
+                    for (Integer integer : this.playerTeam.getTeam().keySet()) {
+                        System.out.println(this.playerTeam.getHero(integer).getName());
+                        this.playerTeam.getHero(integer).disPlay();
+                    }
+                    break;
+                case "f":
+                    countTurn++;
+
+                    if (countTurn == 3) {
+                        countTurn = 0;
+                        roundNum++;
+                        this.addNewMonster(cells);
+                        //If all heroes made a move, then all monsters move forward
+
+                        List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
+                        this.actionAllMonsters(heroes, monsters, cells);
+
+                        //if hero die respawn in base
+                        if(!hero.isAlive()){
+                            hero.backToBase(playerTeam, cells, hero);
+                        }
+                        //reset to first hero
+                        hero = playerTeam.getHero(0);
+                    } else {
+                        hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
+                    }
+                    alreadyMoved = false;
+                    //player team regain
+                    playerTeam.regain();
+                    break;
+                case "q":
+                    play = false;
+                    break;
+                default:
+                    System.out.println("\n Invalid Input \n");
+
             }
+
         }
         System.out.println("Good Bye!");
     }
@@ -213,15 +236,15 @@ public class GameController extends RpgGame
 
     //Check hero current boost state, if there is any boost, remove it before make a move
     public void checkBoost(Hero h, double k, double c, double b){
-        if(h.getB()){
+        if(h.getB() == true){
             h.setDexterity(h.getDexterity() - b);
             h.setB(false);
         }
-        else if (h.getC()){
+        else if (h.getC() == true){
             h.setAgility(h.getAgility() - c);
             h.setC(false);
         }
-        else if (h.getK()){
+        else if (h.getK() == true){
             h.setStrength(h.getStrength() - k);
             h.setK(false);
         }
