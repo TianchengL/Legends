@@ -200,7 +200,6 @@ public class GameController extends RpgGame
                         roundNum++;
                         this.addNewMonster(cells);
                         //If all heroes made a move, then all monsters move forward
-
                         List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
                         this.actionAllMonsters(heroes, monsters, cells);
 
