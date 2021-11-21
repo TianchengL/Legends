@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -503,16 +502,16 @@ public abstract class Hero extends Character{
 
 
     @Override
-    public Monster canAttack(Team monsterTeam) {
-        for(Monster monster: ((MonsterTeam) monsterTeam).getMonsters()){
-            if(monster.isAlive()){
+    public Monster canAttack(List<? extends Character> monsters) {
+        for(Character monster: monsters){
+            if(((Monster)monster).isAlive()){
             //a monster is on the upper row of the hero (left, up, or right)
                 if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                    return monster;
+                    return (Monster)monster;
                 }
                 //a monster is on the same row of the hero (left, same cell, or right)
                 else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                    return monster;
+                    return (Monster)monster;
                 }
             }
         }

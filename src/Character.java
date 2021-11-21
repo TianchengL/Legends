@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * an abstract class for hero and monster or any other character in game
  */
@@ -37,7 +39,7 @@ public abstract class Character {
     }
 
 
-    public abstract Character canAttack(Team team);   //judge if there is an opposite character in its attack range
+    public abstract Character canAttack(List<? extends Character> list);   //judge if there is an opposite character in its attack range
 
 
 }

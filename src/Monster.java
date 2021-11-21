@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * an abstraction of concrete monster which needs to implement Character class
  */
@@ -81,15 +83,17 @@ public abstract class Monster extends Character{
     }
 
     @Override
-    public Hero canAttack(Team playerTeam) {
-        for(Hero hero: ((PlayerTeam) playerTeam).getTeam().values()){
+    public Hero canAttack(List<? extends Character> heroes) {
+        for(Character hero: heroes){
             //a monster is on the upper row of the hero (left, up, or right)
-            if(this.getRow() - hero.getRow() == -1 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
-                return hero;
-            }
-            //a monster is on the same row of the hero (left, same cell, or right)
-            else if(this.getRow() - hero.getRow() == 0 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
-                return hero;
+            if(((Hero)hero).isAlive()){
+                if(this.getRow() - hero.getRow() == -1 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
+                    return (Hero)hero;
+                }
+                //a monster is on the same row of the hero (left, same cell, or right)
+                else if(this.getRow() - hero.getRow() == 0 && (this.getCol() - hero.getCol() <= 1 || this.getCol() - hero.getCol() <= -1)){
+                    return (Hero)hero;
+                }
             }
         }
         return null;
