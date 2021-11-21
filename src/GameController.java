@@ -68,6 +68,9 @@ public class GameController extends RpgGame
             double kBoost = hero.getStrength() * 0.1;
             double bBoost = hero.getDexterity()*0.1;
             double cBoost = hero.getAgility()*0.1;
+            hero.setDexterity(hero.getDexterity()+bBoost);
+            hero.setAgility(hero.getAgility()+cBoost);
+            hero.setStrength(hero.getStrength()+kBoost);
             if(!alreadyMoved) {
                 if ("w".equalsIgnoreCase(s)) {
                     //change playerteam to hero
