@@ -348,9 +348,6 @@ public abstract class Hero extends Character{
                 setCellExplored(cells, row, col);
             }
             else{
-//                hero.setDexterity(hero.getDexterity() - bBoost);
-//                hero.setAgility(hero.getAgility() - cBoost);
-//                hero.setStrength(hero.getStrength()-kBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
@@ -387,11 +384,9 @@ public abstract class Hero extends Character{
     public boolean getK(){
         return this.kBoosted;
     }
-
     public boolean getC(){
         return this.cBoosted;
     }
-
     public boolean getB(){
         return this.bBoosted;
     }
@@ -482,35 +477,6 @@ public abstract class Hero extends Character{
         this.setCol(col);
     }
 
-    public String checkPosType(Cell[][] cells) {
-        if (cells[this.getRow()][this.getCol()] instanceof InaccessibleCell) {
-            return "#";
-        }
-        if (cells[this.getRow()][this.getCol()] instanceof HeroNexusCell) {
-            return "HN";
-        }
-        if(cells[this.getRow()][this.getCol()] instanceof CaveCell){
-            return "C";
-        }
-        if(cells[this.getRow()][this.getCol()] instanceof KoulouCell){
-            return "K";
-        }
-        if(cells[this.getRow()][this.getCol()] instanceof BushCell){
-            return "B";
-        }
-        if(cells[this.getRow()][this.getCol()] instanceof PlainCell){
-            return "P";
-        }
-
-        if(cells[this.getRow()][this.getCol()] instanceof MonsterNexusCell){
-            return "MN";
-        }
-
-
-        return " ";
-    }
-
-
     public void disPlay() {
         System.out.format("%-20s %4s %7s %11s %13s %11s %10s %7s %10s %7s%n",
                 "Name", "HP", "Mana", "Strength", "Agility","Dexterity", "Money", "Exp", "Defense", "Level");
@@ -558,11 +524,13 @@ public abstract class Hero extends Character{
         for(Character monster: monsters){
             if(((Monster)monster).isAlive()){
             //a monster is on the upper row of the hero (left, up, or right)
-                if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1
+                        || monster.getCol() - this.getCol() <= -1)){
                     return (Monster)monster;
                 }
                 //a monster is on the same row of the hero (left, same cell, or right)
-                else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1
+                        || monster.getCol() - this.getCol() <= -1)){
                     return (Monster)monster;
                 }
             }

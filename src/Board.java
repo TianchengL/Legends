@@ -98,17 +98,11 @@ public class Board {
         }
     }
 
-
     public void setCells(String str, int rol, int col){
         cells[rol][col].setCellValue(str);
     }
     public Cell[][] getCells() {
         return cells;
-    }
-
-    public static void main(String[] args) {
-        Board board = new Board(8, 8);
-        board.printBoard();
     }
 
 }

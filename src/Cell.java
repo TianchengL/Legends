@@ -121,15 +121,4 @@ public class Cell
 
     }
 
-    public static void main(String[] args) {
-        Cell n = new Cell( "N");
-        Cell m = new Cell("M");
-        n.setCellHeroPos("H1");
-        n.setCellMonPos("M1");
-        //n.resetHeroCell();
-        //n.resetMCell();
-        // n.printCell();
-//        m.printCell();
-
-    }
 }

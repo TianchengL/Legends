@@ -172,14 +172,4 @@ public class Message {
            "                                        "+Board.ANSI_RESET;
 
 
-    public static void main(String[] args) {
-        System.out.println(welcome);
-        System.out.println(hero);
-        System.out.println(fight);
-        System.out.println(demon1);
-        System.out.println(demon2);
-        System.out.println(fail);
-        System.out.println(win);
-
-    }
 }
