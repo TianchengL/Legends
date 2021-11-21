@@ -31,8 +31,6 @@ public class GameController extends RpgGame
     //init map, random set player to a common cell or market cell
     public void init() {
         Cell[][] map = this.board.getCells();
-//        this.board.setCells("X", 7, 0);
-//        this.playerteam.setRowCol(7, 0);
 
         //set each hero initial pos
         heroes.get(0).setHeroPos(map[map.length-1][0], "H1", map.length - 1, 0 );
