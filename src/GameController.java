@@ -144,10 +144,11 @@ public class GameController extends RpgGame
                     this.addNewMonster(cells);
                     //If all heroes made a move, then all monsters move forward
 
-                    //add new monster
-                    this.moveAllMonster(monsters, cells);
-                    //monster attack
                     List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
+                    this.actionAllMonsters(heroes, monsters, cells);
+                    //monster attack
+
+
                     for (Monster monster : monsters) {
                         Hero h = monster.canAttack(heroes);
                         monster.attack(h);
@@ -176,12 +177,17 @@ public class GameController extends RpgGame
     }
 
     //make monster move
-    public void moveAllMonster(List<Monster> m, Cell[][] cells){
+    public void actionAllMonsters(List<Hero> heroes, List<Monster> m, Cell[][] cells){
 
         for (Monster monster : m) {
-            int row = monster.getRow() + 1;
-            int col = monster.getCol();
-            monster.makeMove(cells, row, col);
+            if(monster.canAttack(heroes) != null) {
+                Hero h = monster.canAttack(heroes);
+                monster.attack(h);
+            }else{
+                int row = monster.getRow() + 1;
+                int col = monster.getCol();
+                monster.makeMove(cells, row, col);
+            }
         }
     }
 
