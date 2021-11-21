@@ -12,10 +12,10 @@ public class GameController extends RpgGame
     private final Board board;
     private final Scanner input;
     private final PlayerTeam playerTeam;
-    private MonsterTeam monsterTeam;
+    private final MonsterTeam monsterTeam;
     private final Market market;
     private final Map<Integer, Hero> heroes;
-    private List<Monster> monsters;
+    private final List<Monster> monsters;
     private int roundNum;
 
     public GameController(Scanner input, HeroSelectionController hs) {
@@ -63,7 +63,7 @@ public class GameController extends RpgGame
             System.out.println("In hero "+hero.name+ "'s round");
             System.out.println();
             this.showMapInfo();
-            hero.showInfoBattle();
+            hero.disPlay();
             String s = this.input.next();
             double kBoost = hero.getStrength() * 0.1;
             double bBoost = hero.getDexterity()*0.1;
@@ -89,6 +89,7 @@ public class GameController extends RpgGame
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
                     //hero attack
+                    hero.showInfoBattle();
                     System.out.println("Attack Monster!");
                     Monster monster = hero.canAttack(monsterTeam);
                     hero.attack(monster);
@@ -120,28 +121,31 @@ public class GameController extends RpgGame
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
                 countTurn++;
-                //System.out.println("11111111111111 count turn :" + countTurn);
-                //add new monster
 
                 if (countTurn == 3) {
                     countTurn = 0;
                     roundNum++;
-                    //System.out.println("22222222222222 round num: " + roundNum);
                     this.addNewMonster(cells);
                     //If all heroes made a move, then all monsters move forward
+
+                    //add new monster
                     this.moveAllMonster(monsters, cells);
                     //monster attack
                     for (Monster monster : monsters) {
                         Hero h = monster.canAttack(playerTeam);
                         monster.attack(h);
                     }
-
+                    //if hero die respawn in base
+                    if(!hero.isAlive()){
+                        hero.backToBase(playerTeam, cells, hero);
+                    }
                     //reset to first hero
                     hero = playerTeam.getHero(0);
                 } else {
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
+
                 //monster make move
             } else {
                 if ("q".equalsIgnoreCase(s)) {
