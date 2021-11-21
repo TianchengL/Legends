@@ -51,14 +51,17 @@ public class GameController extends RpgGame
 
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
+        int count = 1;
         while (true) {
             System.out.println();
-            System.out.println("Monsters move first");
-            System.out.println();
-            System.out.println("In hero "+hero.name+ "'s round");
             this.board.printBoard();
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
+            if(count% 12 == 0){
+                this.monsterTeam.respawn(playerTeam,cells);
+                System.out.println("The monsters have respawned");
+            }
+            System.out.println("In hero "+hero.name+ "'s round");
             String s = this.input.next();
 
             if(!alreadyMoved) {
@@ -81,14 +84,9 @@ public class GameController extends RpgGame
                     hero.makeMove(this.playerTeam, cells, hero, row, col);
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
-                    if(hero.canAttack(monsterTeam)){
-                        System.out.println("Attack starts!");
 
-                        //enter fight
 
-                    }else{
-                        System.out.println("There is no monsters in your attack range.");
-                    }
+
 
                 }
                 alreadyMoved = true;
@@ -114,24 +112,20 @@ public class GameController extends RpgGame
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
                 if (playerTeam.getHeroID(hero) == 2) {
+                    //If all heroes made a move, then all monsters move forward
+                    for(int i =0; i< monsters.size();i++){
+                        Monster m = monsters.get(i);
+                        int row = m.getRow();
+                        int col = m.getCol();
+                        m.makeMove(monsterTeam,cells,row+1,col);
+                    }
                     hero = playerTeam.getHero(0);
                 } else {
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
                 //monster make move
-                int index = playerTeam.getHeroID(hero) -1;
-                Monster m = monsters.get(index);
-                int mrow = m.getRow();
-                int mcol = m.getCol();
-                m.makeMove(cells,mrow+1, mcol);
-                //attack if any hero in attack range
-                if(m.canAttack(playerTeam)){
-                    m.attack(playerTeam.getHero(index));
-                }
-                else{
-                    System.out.println("Time for next hero's turn");
-                }
+
 
 
             }

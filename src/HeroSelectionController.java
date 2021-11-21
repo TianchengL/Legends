@@ -32,8 +32,7 @@ public class HeroSelectionController
         String name = this.input.next();
         this.team = new PlayerTeam(name);
         System.out.println("Please enter 3 heroes to add in your team.");
-        int heroNum = Integer.parseInt(UtilCheckInput.checkInput(input, 3, 3));
-        this.addToTeam(heroNum);
+        this.addToTeam(3);
     }
 
     public PlayerTeam getPlayerTeam() {

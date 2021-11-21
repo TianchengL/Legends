@@ -9,7 +9,6 @@ public abstract class Monster extends Character{
     private int defenseStats;
     private double dodgeChance;
     private int HP;
-
     enum MonsterType{
         DRAGON, EXOSKELETON, SPIRIT;
     }
@@ -31,15 +30,26 @@ public abstract class Monster extends Character{
     }
 
     //monster move
-    public void makeMove(Cell[][] cells, int row, int col){
+    public void makeMove(MonsterTeam monsters, Cell[][] cells, int row, int col){
+        if (UtilCheckInput.checkBorder(row, col)){
+            if(cells[row][col] instanceof  HeroNexusCell) {
+                System.out.println("Monsters have destroy all the hero nexus, players lost");
+                System.out.println("The game is over");
+                System.exit(0);
+            }
+            else{
+                cells[row][col].setCellMonPos("M");
+                cells[this.getRow()][this.getCol()].resetMCell();
+                //update hero pos
+                this.setPos(row, col);
+            }
+            }
 
-        cells[row][col].setCellMonPos("M");
-        cells[this.getRow()][this.getCol()].resetMCell();
-        //update hero pos
-        this.setPos(row, col);
+        }
 
 
-    }
+
+
 
     //attack opponent
     public void attack(Character op){

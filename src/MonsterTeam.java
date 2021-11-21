@@ -12,7 +12,7 @@ import java.util.List;
 public class MonsterTeam implements Team
 {
     public List<Monster> monster_team;
-
+    private int winCondition = 0;
     public MonsterTeam(PlayerTeam playerTeam) {
         Map<Integer, Hero> heroes = playerTeam.getTeam();
         //find the highest level of hero in team
@@ -51,6 +51,47 @@ public class MonsterTeam implements Team
             }
         }
     }
+    public void respawn(PlayerTeam players,Cell[][] cells){
+        Map<Integer, Hero> heroes = players.getTeam();
+        int highestLevel = heroes.get(0).getLevel();
+        List<Dragon> dragons = CharacterFactory.getDragonsInstance();
+        List<Spirit> spirits = CharacterFactory.getSpiritsInstance();
+        List<Exoskeleton> exoskeletons = CharacterFactory.getExoskeletonsInstance();
+        List<Monster> monsters = new ArrayList<>(spirits);
+        monsters.addAll(exoskeletons);
+        monsters.addAll(dragons);
+        if(monster_team.size()< heroes.size()){
+            while (this.monster_team.size() != heroes.size()) {
+                int index = (int)(Math.random() * monsters.size());
+                if (highestLevel == monsters.get(index).getLevel()) {
+                    boolean used = false;
+                    for (Monster monster : this.monster_team) {
+                        if (Objects.equals(monster.getName(), monsters.get(index).getName())) {
+                            used = true;
+                            break;
+                        }
+                    }
+                    if (used) {
+                        continue;
+                    }
+                    if(monster_team.get(0) == null){
+                        this.addMonster(monsters.get(index));
+                        monsters.get(0).setMonsterPos(cells[0][0], "M", 0, 0);
+                    }
+                    else if(monster_team.get(1)==null){
+                        this.addMonster(monsters.get(index));
+                        monsters.get(0).setMonsterPos(cells[0][3], "M", 0, 3);
+                    }
+                    else{
+                        this.addMonster(monsters.get(index));
+                        monsters.get(0).setMonsterPos(cells[0][6], "M", 0, 6);
+                    }
+
+                }
+            }
+        }
+
+        }
 
     public boolean isAllFaint() {
         for (Monster monster : this.monster_team) {
@@ -60,8 +101,12 @@ public class MonsterTeam implements Team
         }
         return true;
     }
-
-
+    public void setCondition(int value){
+        this.winCondition = value;
+    }
+    public int getCondition(){
+        return this.winCondition;
+    }
 
     public void addMonster(Monster monster) {
         this.monster_team.add(monster);

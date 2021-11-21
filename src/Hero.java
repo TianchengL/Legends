@@ -218,8 +218,11 @@ public abstract class Hero extends Character{
                 //update hero pos
                 hero.setPos(row, col);
                 System.out.println("Congratulation!");
-                System.out.println("This Hero have destroy the monster's nexus");
+                System.out.println("The Hero have destroy the monster's nexus");
+                System.out.println("Players won the game");
                 this.setReachEnemyBase(true);
+                System.out.println("The game is over");
+                System.exit(0);
             }else{
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
