@@ -98,6 +98,7 @@ public class GameController extends RpgGame
                         //enter fight
                         System.out.println(Message.fight);
                         System.out.println(hero.canAttack(monsterTeam).getName());
+                        this.fight(input);
                     }else{
                         System.out.println("There is no monsters in your attack range.");
                         continue;
@@ -123,7 +124,6 @@ public class GameController extends RpgGame
                     this.playerTeam.getHero(integer).disPlay();
                 }
             }
-
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
                 if(playerTeam.getHeroID(hero) == 2){
@@ -152,10 +152,8 @@ public class GameController extends RpgGame
 
     //0.5 chance to enter fight
     public void fight(Scanner input) {
-        if (Math.random() > 0.5) {
-            Fight f = new Fight(this.playerTeam);
-            f.roundPlay(input);
-        }
+        Fight f = new Fight(this.playerTeam);
+        f.roundPlay(input);
     }
 
     private void showMapInfo() {
@@ -192,7 +190,7 @@ public class GameController extends RpgGame
 
     public void end(){
         System.out.println("Congratulation!");
-        System.out.println("Hero playerteam have destroy the monster's nexus");
+        System.out.println("Hero playerTeam have destroy the monster's nexus");
         System.out.println("The game is over, Thanks for playing");
         System.exit(0);
     }
