@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,6 +16,7 @@ public class GameController extends RpgGame
     private final Market market;
     private final Map<Integer, Hero> heroes;
     private List<Monster> monsters;
+    private int roundNum;
 
     public GameController(Scanner input, HeroSelectionController hs) {
         this.input = input;
@@ -24,6 +26,8 @@ public class GameController extends RpgGame
         this.market = new Market();
         this.heroes = playerTeam.getTeam();
         this.monsters = monsterTeam.getMonsters();
+        this.roundNum = 0;
+
 
         this.init();
     }
@@ -40,9 +44,9 @@ public class GameController extends RpgGame
         heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
 
         //initialize monster pos
-        monsters.get(0).setMonsterPos(map[0][0], "M", 0, 0);
-        monsters.get(1).setMonsterPos(map[0][3], "M", 0, 3);
-        monsters.get(2).setMonsterPos(map[0][6], "M", 0, 6);
+        monsters.get(0).setMonsterPos(map[0][0], "M1", 0, 0);
+        monsters.get(1).setMonsterPos(map[0][3], "M2", 0, 3);
+        monsters.get(2).setMonsterPos(map[0][6], "M3", 0, 6);
 
     }
 
@@ -51,7 +55,7 @@ public class GameController extends RpgGame
 
         Hero hero = this.heroes.get(0);
         boolean alreadyMoved = false;
-        int count = 1;
+        int countTurn = 0;
         while (true) {
             System.out.println();
             this.board.printBoard();
@@ -59,19 +63,6 @@ public class GameController extends RpgGame
             System.out.println("In hero "+hero.name+ "'s round");
             System.out.println();
             this.showMapInfo();
-            if(count% 2 == 0){
-                Cell[][] map = this.board.getCells();
-                MonsterTeam newMonsters = new MonsterTeam(playerTeam);
-                List<Monster> newMTeam = newMonsters.getMonsters();
-                newMTeam.get(0).setMonsterPos(cells[0][0], "M", 0, 0);
-                newMTeam.get(1).setMonsterPos(cells[0][3], "M", 0, 3);
-                newMTeam.get(2).setMonsterPos(cells[0][6], "M", 0, 6);
-                for(int i=0; i< newMTeam.size();i++){
-                    Monster m = newMTeam.get(i);
-                    monsters.add(m);
-                }
-                System.out.println("The monsters have respawned");
-            }
             String s = this.input.next();
 
             if(!alreadyMoved) {
@@ -126,37 +117,60 @@ public class GameController extends RpgGame
 
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
-                System.out.println(count);
-                if (playerTeam.getHeroID(hero) == 2) {
+
+                countTurn++;
+                //System.out.println("11111111111111 count turn :" + countTurn);
+                //add new monster
+
+                if (countTurn == 3) {
+                    countTurn = 0;
+                    roundNum++;
+                    //System.out.println("22222222222222 round num: " + roundNum);
+                    this.addNewMonster(cells);
                     //If all heroes made a move, then all monsters move forward
-                    for(int i =0; i< monsters.size();i++){
-                        Monster m = monsters.get(i);
-                        int row = m.getRow();
-                        int col = m.getCol();
-                        m.makeMove(monsterTeam,cells,row+1,col);
-                    }
+                    System.out.println("111111111111111111 monsters size: " + monsters.size());
+                    this.moveAllMonster(monsters, cells);
+
+                    //reset to first hero
                     hero = playerTeam.getHero(0);
-                    count++;
                 } else {
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
                 //monster make move
-
-
-
-            }
-
-            else {
+            } else {
                 if ("q".equalsIgnoreCase(s)) {
                     break;
                 }
                 System.out.println("\nInvalid Input!\n");
             }
-
         }
         System.out.println("Good Bye!");
     }
+
+    public void moveAllMonster(List<Monster> m, Cell[][] cells){
+
+        for (Monster monster : m) {
+            int row = monster.getRow() + 1;
+            int col = monster.getCol();
+            monster.makeMove(cells, row, col);
+        }
+    }
+
+
+    public void addNewMonster(Cell[][] cells){
+        //every 2 round renew monster
+        if(roundNum %  2 == 0){
+            MonsterTeam newMonsters = new MonsterTeam(playerTeam);
+            List<Monster> newMTeam = newMonsters.getMonsters();
+            newMTeam.get(0).setMonsterPos(cells[0][0], "M4", 0, 0);
+            newMTeam.get(1).setMonsterPos(cells[0][3], "M5", 0, 3);
+            newMTeam.get(2).setMonsterPos(cells[0][6], "M6", 0, 6);
+            monsters.addAll(newMTeam);
+            System.out.println("The monsters have respawned");
+        }
+    }
+
 
     //enter market
     public void trading(Scanner input, Hero hero) {
