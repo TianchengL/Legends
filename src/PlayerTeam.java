@@ -86,11 +86,11 @@ public class PlayerTeam extends Player implements Team
     //check if all heroes has reached monster base, if so hero win
     public boolean isWin(){
         for (Integer i : team.keySet()) {
-            if(!team.get(i).isReachEnemyBase()){
-                return false;
+            if(team.get(i).isReachEnemyBase()){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     //getter and setter
