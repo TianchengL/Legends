@@ -28,13 +28,6 @@ public class Board {
         int numKou = (int)Math.round(size * 0.2);
         int numBush = (int)Math.round(size * 0.2);
 
-//        int totalTile = 12;
-//        int numBCK = (int)Math.round(totalTile * 0.2);
-//
-//        this.setLane(getRandomNumber(totalTile, numBCK,numBCK,numBCK),0);
-//        this.setLane(getRandomNumber(totalTile, numBCK,numBCK,numBCK),3);
-//        this.setLane(getRandomNumber(totalTile, numBCK,numBCK,numBCK),6);
-//
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if(j == 2 || j == 5){
@@ -46,7 +39,6 @@ public class Board {
                 else if(i == 7){
                     this.cells[i][j] = new HeroNexusCell("H");
                 }
-
             }
         }
         while(size > 0){
@@ -72,84 +64,6 @@ public class Board {
         }
 
     }
-
-//    public ArrayList<ArrayList<Integer>> getRandomNumber(int total, int num1, int num2,int num3){
-//        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-//
-//        ArrayList<Integer> list1 = new ArrayList<>();
-//        ArrayList<Integer> list2 = new ArrayList<>();
-//        ArrayList<Integer> list3 = new ArrayList<>();
-//        ArrayList<Integer> list4 = new ArrayList<>();
-//
-//        int count = 0;
-//        while(count < num1){
-//            int random = new Random().nextInt(total);
-//            if(list1.contains(random)){
-//                continue;
-//            }
-//            list1.add(random);
-//            count++;
-//        }
-//
-//        count = 0;
-//        while(count < num2){
-//            int random = new Random().nextInt(total);
-//            if(list1.contains(random) || list2.contains(random)) {
-//                continue;
-//            }
-//            list2.add(random);
-//            count++;
-//
-//        }
-//
-//        count = 0;
-//        while(count < num3) {
-//            int random = new Random().nextInt(total);
-//            if (list1.contains(random) || list2.contains(random) || list3.contains(random)) {
-//                continue;
-//            }
-//            list3.add(random);
-//            count++;
-//
-//        }
-//        for (int i = 0; i < total; i++) {
-//            if(!list1.contains(i) && !list2.contains(i) && !list3.contains(i) ){
-//                list4.add(i);
-//            }
-//        }
-//
-//
-//        result.add(list1);
-//        result.add(list2);
-//        result.add(list3);
-////        result.add(list4);
-//        return result;
-//    }
-//    public void setLane(ArrayList<ArrayList<Integer>> randomNumber, int startColumn ) {
-//        ArrayList<Integer> numBush = randomNumber.get(0);
-//        ArrayList<Integer> numCave = randomNumber.get(1);
-//        ArrayList<Integer> numKoulou = randomNumber.get(2);
-//
-//        for (Integer i : numBush) {
-//            int x = i / 2;
-//            int y = i % 2;
-//            this.cells[x + 1][y + startColumn] = new BushCell(x + 1, y + startColumn, "B");
-//
-//        }
-//        for (Integer i : numCave) {
-//            int x = i / 2;
-//            int y = i % 2;
-//            this.cells[x + 1][y + startColumn] = new CaveCell(x + 1, y + startColumn, "C");
-//
-//        }
-//
-//        for (Integer i : numKoulou) {
-//            int x = i / 2;
-//            int y = i % 2;
-//            this.cells[x + 1][y + startColumn] = new KoulouCell(x + 1, y + startColumn, "K");
-//
-//        }
-//    }
 
     //print current board
     public void printBoard(){
@@ -184,10 +98,6 @@ public class Board {
         }
     }
 
-    //set each hero initial lane
-    public void setHeroLane(){}
-
-    public void setMonsterLane(){};
 
     public void setCells(String str, int rol, int col){
         cells[rol][col].setCellValue(str);

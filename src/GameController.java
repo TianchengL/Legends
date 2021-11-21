@@ -39,6 +39,9 @@ public class GameController extends RpgGame
         heroes.get(0).setHeroPos(map[map.length-1][0], "H1", map.length - 1, 0 );
         heroes.get(1).setHeroPos(map[map.length-1][3], "H2", map.length - 1, 3 );
         heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
+        heroes.get(0).setCellExplored(map, map.length - 1, 0);
+        heroes.get(1).setCellExplored(map, map.length - 1, 3);
+        heroes.get(2).setCellExplored(map, map.length - 1, 6);
 
         //initialize monster pos
         monsters.get(0).setMonsterPos(map[0][0], "M ", 0, 0);
@@ -60,6 +63,7 @@ public class GameController extends RpgGame
             System.out.println("In hero "+hero.name+ "'s round");
             System.out.println();
             this.showMapInfo();
+            playerTeam.displayName();
             hero.disPlay();
             String s = this.input.next();
             double kBoost = hero.getStrength() * 0.1;
