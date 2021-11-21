@@ -35,9 +35,10 @@ public abstract class Monster extends Character{
     public void makeMove(Cell[][] cells, int row, int col){
        // String m = String.valueOf(mNum);
         if (UtilCheckInput.checkBorder(row, col)){
-            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzz");
+//            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzz");
             if(cells[row][col] instanceof  HeroNexusCell) {
-                System.out.println("Monsters have destroy all the hero nexus, players lost");
+                System.out.println(Message.fail);
+                System.out.println("Monsters have destroy the hero nexus, players lost");
                 System.out.println("The game is over");
                 System.exit(0);
             }

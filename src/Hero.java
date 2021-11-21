@@ -291,6 +291,7 @@ public abstract class Hero extends Character{
                 hero.setPos(row, col);
                 //set this cell and same row cell as explored
                 setCellExplored(cells, row, col);
+                System.out.println(Message.win);
                 System.out.println("Congratulation!");
                 System.out.println("This Hero have destroy the monster's nexus");
                 this.setReachEnemyBase(true);

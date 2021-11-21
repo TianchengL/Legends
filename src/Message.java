@@ -63,7 +63,7 @@ public class Message {
            "    :%%*=@@%%%%%%%%#-  .-+#%@##+=-:     \n" +
            "                                      "+Board.ANSI_RESET;
 
-   public static String demon1 = "              ,   .-'\"'=;_  ,\n" +
+   public static String demon1 =  Board.ANSI_RED+"              ,   .-'\"'=;_  ,\n" +
            "              |\\.'-~`-.`-`;/|\n" +
            "              \\.` '.'~-.` './\n" +
            "              (\\`,__=-'__,'/)\n" +
@@ -86,9 +86,9 @@ public class Message {
            "       `'\"`  \\  (         )  /  `\"'`\n" +
            "   ___   aac  `.`.       .'.'        ___\n" +
            " .`   ``\"\"\"'''--`_)     (_'--'''\"\"\"``   `.\n" +
-           "(_(_(___...--'\"'`         `'\"'--...___)_)_)";
+           "(_(_(___...--'\"'`         `'\"'--...___)_)_)"+Board.ANSI_RESET;
 
-   public static String demon2 = "                            ,-.\n" +
+   public static String demon2 = Board.ANSI_PURPLE+"                            ,-.\n" +
            "       ___,---.__          /'|`\\          __,---,___\n" +
            "    ,-'    \\`    `-.____,-'  |  `-.____,-'    //    `-.\n" +
            "  ,'        |           ~'\\     /`~           |        `.\n" +
@@ -104,7 +104,7 @@ public class Message {
            "           /   /     ||--+--|--+-/-|     \\   \\\n" +
            "           |   |     /'\\_\\_\\ | /_/_/`\\     |   |\n" +
            "            \\   \\__, \\_     `~'     _/ .__/   /\n" +
-           "             `-._,-'   `-._______,-'   `-._,-'";
+           "             `-._,-'   `-._______,-'   `-._,-'" + Board.ANSI_RESET;
 
    public static String fight = "                                                           \n" +
            Board.ANSI_CYAN+ "                    =##-                                    \n" +

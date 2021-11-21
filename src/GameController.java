@@ -262,6 +262,7 @@ public class GameController extends RpgGame
     }
 
     public void end(){
+        System.out.println(Message.win);
         System.out.println("Congratulation!");
         System.out.println("Hero playerteam have destroy the monster's nexus");
         System.out.println("The game is over, Thanks for playing");
