@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Map;
 
 /**
  * abstract class for all three types of hero
@@ -8,7 +7,9 @@ import java.util.Map;
 public abstract class Hero extends Character{
 
     protected Skill skill;
-    private double strength,agility, dexterity;
+    private double strength;
+    private double agility;
+    private double dexterity;
     private int HP;
     private double mana;
     private int money;
@@ -24,6 +25,8 @@ public abstract class Hero extends Character{
     //true if this hero has reached enemy nexus
     private boolean reachEnemyBase;
 
+    //current hero's position
+    //private int row, col;
 
     enum HeroType{
         WARRIORS, SORCERERS, PALADINS;
@@ -57,7 +60,7 @@ public abstract class Hero extends Character{
         return inventory;
     }
 
-    //attack enemy
+    //attack to enemy
     public void attack(Character character){
         double damage;
         if(character instanceof Monster){
@@ -192,59 +195,6 @@ public abstract class Hero extends Character{
         System.out.println("Hero " + this.getName() + " level up!");
     }
 
-    /**
-     * teleport to the selected cell position that has been explored before
-     * @param row of hero is sending to
-     * @param col that the current hero is sending to
-     * @param playerTeam current player team
-     * @param hero current hero
-     * @return true if teleport success
-     */
-    public boolean telePort(Cell[][] cells, int row, int col, PlayerTeam playerTeam, Hero hero){
-        String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
-
-        int prevCol = hero.getCol();
-        //if selected teleport lane is the same lane
-        if(prevCol + 1 == col || prevCol == col || prevCol - 1 == col){
-            System.out.println("cannot teleport to same lane");
-            return false;
-        }else{
-            //if selected cell not contain hero and has been explored
-            if(cells[row][col].isExplored() && !cells[row][col].isHero()){
-                cells[row][col].setCellHeroPos("H" + heroNum);
-                cells[hero.getRow()][hero.getCol()].resetHeroCell();
-                hero.setPos(row, col);
-                return true;
-            }else{
-                System.out.println("cannot move to the cell that has not been explored");
-            }
-        }
-        return false;
-    }
-
-    //hero back to his nexus
-    public void backToBase(PlayerTeam playerTeam, Cell[][] cells, Hero hero){
-
-        //get current hero number
-        String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
-
-        //set hero position to base according to hero number
-        if(playerTeam.getHeroID(hero) == 0){
-            cells[cells.length - 1][0].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 0);
-        }else if(playerTeam.getHeroID(hero) == 1){
-            cells[cells.length - 1][3].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 3);
-
-        }else if(playerTeam.getHeroID(hero) == 2){
-            cells[cells.length - 1][6].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 6);
-        }
-    }
-
 
     //current turn hero move to next cell
     public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col) {
@@ -260,8 +210,6 @@ public abstract class Hero extends Character{
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
                 hero.setPos(row, col);
-                //set this cell and same row cell as explored
-                setCellExplored(cells, row, col);
                 System.out.println("You have entered a market place!");
             }
             else if (cells[row][col] instanceof MonsterNexusCell) {
@@ -269,8 +217,6 @@ public abstract class Hero extends Character{
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
                 hero.setPos(row, col);
-                //set this cell and same row cell as explored
-                setCellExplored(cells, row, col);
                 System.out.println("Congratulation!");
                 System.out.println("The Hero have destroy the monster's nexus");
                 System.out.println("Players won the game");
@@ -282,25 +228,10 @@ public abstract class Hero extends Character{
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos
                 hero.setPos(row, col);
-                //set this cell and same row cell as explored
-                setCellExplored(cells, row, col);
             }
         }
         else {
             System.out.println("You cannot move to outside of the board!");
-        }
-    }
-
-    //set current cell and its neighbor cell explored
-    public void setCellExplored(Cell[][] cells, int row, int col){
-        cells[row][col].setExplored(true);
-        //if current cell left is not out of bound and is not Block Cell
-        if(col - 1 >= 0 &&  !(cells[row][col-1] instanceof InaccessibleCell)){
-            cells[row][col-1].setExplored(true);
-        }
-        //if current cell right is not out of bound and is not block cel
-        if(col + 1 <= cells[0].length &&  !(cells[row][col+1] instanceof InaccessibleCell)){
-            cells[row][col+1].setExplored(true);
         }
     }
 
@@ -377,6 +308,18 @@ public abstract class Hero extends Character{
     }
 
     public abstract HeroType getType();
+//    public int getRow() {
+//        return row;
+//    }
+//    public void setRow(int row) {
+//        this.row = row;
+//    }
+//    public int getCol() {
+//        return col;
+//    }
+//    public void setCol(int col) {
+//        this.col = col;
+//    }
 
 //    //set hero position
     public void setHeroPos(Cell cell, String name, int row, int col){
@@ -456,21 +399,17 @@ public abstract class Hero extends Character{
 
 
     @Override
-    public Monster canAttack(Team monsterTeam) {
+    public boolean canAttack(Team monsterTeam) {
         for(Monster monster: ((MonsterTeam) monsterTeam).getMonsters()){
-            if(monster.isAlive()){
             //a monster is on the upper row of the hero (left, up, or right)
-                if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                    return monster;
-                }
-                //a monster is on the same row of the hero (left, same cell, or right)
-                else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                    return monster;
-                }
+            if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                return true;
+            }
+            //a monster is on the same row of the hero (left, same cell, or right)
+            else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                return true;
             }
         }
-        return null;
+        return false;
     }
-
-
 }

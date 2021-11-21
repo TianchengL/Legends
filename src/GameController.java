@@ -58,7 +58,12 @@ public class GameController extends RpgGame
             Cell[][] cells = this.board.getCells();
             this.showMapInfo();
             if(count% 12 == 0){
-                this.monsterTeam.respawn(playerTeam,cells);
+                MonsterTeam newMonsters = new MonsterTeam(playerTeam);
+                List<Monster> newMTeam = newMonsters.getMonsters();
+                for(int i=0; i< newMTeam.size();i++){
+                    Monster m = newMTeam.get(i);
+                    monsters.add(m);
+                }
                 System.out.println("The monsters have respawned");
             }
             System.out.println("In hero "+hero.name+ "'s round");
