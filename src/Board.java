@@ -37,15 +37,16 @@ public class Board {
 //
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                if(i == 0 ){
+                if(j == 2 || j == 5){
+                    this.cells[i][j] = new InaccessibleCell("I");
+                }
+                else if(i == 0 ){
                     this.cells[i][j] = new MonsterNexusCell("M");
                 }
                 else if(i == 7){
                     this.cells[i][j] = new HeroNexusCell("H");
                 }
-                else if(j == 2 || j == 5){
-                    this.cells[i][j] = new InaccessibleCell("I");
-                }
+
             }
         }
         while(size > 0){
@@ -160,6 +161,11 @@ public class Board {
                         String res = cells[r][c].getPos()[cellR][cellC];
 
                         if(cells[r][c] instanceof InaccessibleCell){
+                            if(cellR == 1){
+                                if (cellC == 1 || cellC == 2) res = " X";
+                                else if(cellC == 3) res = " X ";
+                            }
+
                             System.out.print(ANSI_RED + res + ANSI_RESET);
                         }else if(cells[r][c] instanceof MonsterNexusCell || cells[r][c] instanceof HeroNexusCell ){
                             System.out.print(ANSI_CYAN + res + ANSI_RESET);
