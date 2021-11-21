@@ -40,7 +40,7 @@ public abstract class Spell extends Item implements castable{
     }
 
     //every spell needs to implement cast method
-    public abstract void cast(Hero hero, Character character);
+    public abstract boolean cast(Hero hero, Character character);
 
     //get each spell type
     public abstract SpellType getSpellType();

@@ -136,8 +136,11 @@ public class GameController extends RpgGame
                         if (hero.canAttack(monsters) != null) {
 
                             Monster monster = hero.canAttack(monsters);
-                            hero.castSpell(input, monster);
-                            alreadyMoved = true;
+                            if(!hero.castSpell(input, monster)){
+                                continue;
+                            }else{
+                                alreadyMoved = true;
+                            }
                         } else {
                             System.out.println("There is no monster in your attack range!");
                             continue;

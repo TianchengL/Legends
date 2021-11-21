@@ -11,7 +11,10 @@ public class FireSpell extends Spell{
     //cast fire spell
     //calculate damage according to formula and deteriorate enemy defense
     @Override
-    public void cast(Hero hero, Character character) {
+    public boolean cast(Hero hero, Character character) {
+        if(hero.getMana() < this.getMana())
+            return false;
+
         hero.setMana(hero.getMana() - this.getMana());
         double damage = this.getDamageRange() + (hero.getDexterity()/10000)*this.getDamageRange();
 
@@ -24,6 +27,8 @@ public class FireSpell extends Spell{
                     + character.getName() + " defense "
                             + " reduced " + reduce + ".");
         }
+
+        return true;
     }
 
     public SpellType getSpellType(){

@@ -14,7 +14,9 @@ public class LightingSpell extends Spell{
 
 
     @Override
-    public void cast(Hero hero, Character character) {
+    public boolean cast(Hero hero, Character character) {
+        if(hero.getMana() < this.getMana())
+            return false;
         hero.setMana(hero.getMana() - this.getMana());
         double damage = this.getDamageRange() + (hero.getDexterity()/10000)*this.getDamageRange();
 
@@ -27,5 +29,7 @@ public class LightingSpell extends Spell{
                     + "enemy " +  character.getName() + " dodge chance " +
                     " reduced " + reduce + ".");
         }
+
+        return true;
     }
 }

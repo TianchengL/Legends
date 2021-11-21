@@ -4,5 +4,5 @@
  */
 public interface castable
 {
-    void cast(Hero hero, Character c);
+    boolean cast(Hero hero, Character c);
 }

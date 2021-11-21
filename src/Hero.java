@@ -83,17 +83,20 @@ public abstract class Hero extends Character{
     }
 
     //hero cast Spell
-    public void castSpell(Scanner input, Monster m){
+    public boolean castSpell(Scanner input, Monster m){
         List<Spell> spells = this.getInventory().getSpellList();
         if (!spells.isEmpty()) {
             this.getInventory().printSpells();
             System.out.println("Please select Spell ID to cast");
             int id = Integer.parseInt(UtilCheckInput.checkInput(input, 1, spells.size()));
-            spells.get(id - 1).cast(this, m);
+            if(!spells.get(id - 1).cast(this, m)){
+                return false;
+            }
             this.showInfoBattle();
             m.displayStats();
         }
         System.out.println("There is no spell!");
+        return true;
     }
 
     //according to index to equip weapon

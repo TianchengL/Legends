@@ -13,7 +13,10 @@ public class IceSpell extends Spell{
     }
 
     @Override
-    public void cast(Hero hero, Character character) {
+    public boolean cast(Hero hero, Character character) {
+        if(hero.getMana() < this.getMana() )
+            return false;
+
         hero.setMana(hero.getMana() - this.getMana());
         double damage = this.getDamageRange() + (hero.getDexterity()/10000)*this.getDamageRange();
 
@@ -27,7 +30,7 @@ public class IceSpell extends Spell{
                     " reduced " + reduce + ".");
         }
 
-
+        return true;
     }
 
 }
