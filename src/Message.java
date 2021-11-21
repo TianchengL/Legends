@@ -133,7 +133,28 @@ public class Message {
            "  .%%+                  .===="+Board.ANSI_RESET+Board.ANSI_RED+" ===                            "+Board.ANSI_RESET;
 
 
-   public static String fail = "                                        \n" +
+   public static String win = Board.ANSI_CYAN+ "                                        \n" +
+           "                                        \n" +
+           "                      .-==+=:           \n" +
+           "                    .++-:::-**          \n" +
+           "                   :#-::::::+#          \n" +
+           "                   *+:::::-+#:          \n" +
+           "                   %-::::-#+.           \n" +
+           "             .::::+#:::::#=             \n" +
+           "          .+*+=====:::::-%:             \n" +
+           "          #=::::-+=+=-:::%=             \n" +
+           "         .%-:::::::-=#=::+#+*:          \n" +
+           "         :%*-::::::::+*::-=:=%.         \n" +
+           "         =%-+++=====*+-::::::%-         \n" +
+           "         =#*=:--===-+=:::::::%:         \n" +
+           "         -%==+=====+*-::::::=#          \n" +
+           "          #+++==--=+=::-*-:-#:          \n" +
+           "          .*+======*-=*##+**.           \n" +
+           "            .-====-==-. .:.             \n" +
+           "                                        \n" +
+           "                                          " + Board.ANSI_RESET;
+
+   public static String fail = Board.ANSI_RED + "                                        \n" +
            "                 .:--:.                 \n" +
            "              =#%%%%%%%%#=              \n" +
            "            .%%%%%%%%%%%%%%.            \n" +
@@ -150,11 +171,6 @@ public class Message {
            "       =%%:                  :%%-       \n" +
            "                                        "+Board.ANSI_RESET;
 
-//    private static final String ANSI_CYAN = "\u001B[36m";
-//    private static final String ANSI_RESET = "\u001B[0m";
-//    private static final String ANSI_RED = "\u001B[31m";
-//    private static final String ANSI_GREEN = "\u001B[32m";
-//    public static final String ANSI_PURPLE = "\u001B[35m";
 
     public static void main(String[] args) {
         System.out.println(welcome);
@@ -163,6 +179,7 @@ public class Message {
         System.out.println(demon1);
         System.out.println(demon2);
         System.out.println(fail);
+        System.out.println(win);
 
     }
 }
