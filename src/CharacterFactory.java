@@ -38,21 +38,21 @@ public class CharacterFactory
         if (CharacterFactory.dragons == null) {
             CharacterFactory.dragons = CharacterFactory.parser.parseDragon("Dragons.txt");
         }
-        return CharacterFactory.dragons;
+        return CharacterFactory.parser.parseDragon("Dragons.txt");
     }
 
     public static List<Exoskeleton> getExoskeletonsInstance() {
         if (CharacterFactory.exoskeletons == null) {
             CharacterFactory.exoskeletons = CharacterFactory.parser.parseExoskeleton("Exoskeletons.txt");
         }
-        return CharacterFactory.exoskeletons;
+        return CharacterFactory.parser.parseExoskeleton("Exoskeletons.txt");
     }
 
     public static List<Spirit> getSpiritsInstance() {
         if (CharacterFactory.spirits == null) {
             CharacterFactory.spirits = CharacterFactory.parser.parseSpirit("Spirits.txt");
         }
-        return CharacterFactory.spirits;
+        return CharacterFactory.parser.parseSpirit("Spirits.txt");
     }
 
     static {
