@@ -267,12 +267,13 @@ public abstract class Hero extends Character{
 
 
     //current turn hero move to next cell
-    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero, int row, int col,double kBoost,double bBoost,double cBoost) {
+    public boolean makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero, int row, int col,double kBoost,double bBoost,double cBoost) {
         //current turn hero num
         String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
         if (UtilCheckInput.checkBorder(row, col)) {
             if (cells[row][col] instanceof InaccessibleCell) {
                 System.out.println("cannot enter # (inaccessible)!");
+                return false;
             }
             else if (cells[row][col] instanceof HeroNexusCell) {
                 cells[row][col].setCellHeroPos("H" + heroNum);
@@ -344,7 +345,9 @@ public abstract class Hero extends Character{
         }
         else {
             System.out.println("You cannot move to outside of the board!");
+            return false;
         }
+        return true;
     }
 
     //set current cell and its neighbor cell explored
@@ -505,6 +508,7 @@ public abstract class Hero extends Character{
     //show info during the fight
     public void showInfoBattle(){
         System.out.println();
+
         System.out.format("%-20s %4s %7s %12s %25s  %25s%n",
                 "Name", "HP", "Mana", "Level", "Equipped Weapon","Armor");
         System.out.println("=====================================================================");

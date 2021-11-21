@@ -42,7 +42,7 @@ public class Message {
             "\t\t   \\_/   \\_______)";
 
 
-   public static String monster = "\n" +
+   public static String monster = Board.ANSI_RED+ "\n" +
            "                                        \n" +
            "                                        \n" +
            "         . =:..                         \n" +

@@ -56,6 +56,7 @@ public abstract class Monster extends Character{
 
     //attack opponent
     public void attack(Character op){
+
         if(op instanceof Hero){
             if(((Hero) op).dodge()){
                 System.out.println("\nMonster " + this.getName() + " missed attack!");

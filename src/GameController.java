@@ -79,7 +79,7 @@ public class GameController extends RpgGame
                     if(hero.canAttack(monsters) != null) {
                         System.out.println("You cannot pass by a monster without attacking it!");
                     } else{
-                        hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                        if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
                     }
                 } else if ("s".equalsIgnoreCase(s)) {
                     double kBoost = hero.getStrength() * 0.1;
@@ -88,7 +88,7 @@ public class GameController extends RpgGame
                     this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow() + 1;
                     int col = hero.getCol();
-                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
                 } else if ("a".equalsIgnoreCase(s)) {
                     double kBoost = hero.getStrength() * 0.1;
                     double bBoost = hero.getDexterity()*0.1;
@@ -96,7 +96,7 @@ public class GameController extends RpgGame
                     this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow();
                     int col = hero.getCol() - 1;
-                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
                 } else if ("d".equalsIgnoreCase(s)) {
                     double kBoost = hero.getStrength() * 0.1;
                     double bBoost = hero.getDexterity()*0.1;
@@ -104,19 +104,31 @@ public class GameController extends RpgGame
                     this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow();
                     int col = hero.getCol() + 1;
-                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                    if(!hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost))continue;
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
                     //hero attack
-                    hero.showInfoBattle();
-                    System.out.println("Attack Monster!");
-                    Monster monster = hero.canAttack(monsters);
-                    hero.attack(monster);
+                    if(hero.canAttack(monsters)!=null){
+                        hero.showInfoBattle();
+                        System.out.println(Message.fight);
+                        System.out.println("Attack Monster!");
+                        Monster monster = hero.canAttack(monsters);
+                        hero.attack(monster);
+                    }else {
+                        System.out.println("There is no monster in your attack range!");
+                        continue;
+                    }
+
 
                 }else if("c".equalsIgnoreCase(s)){
                     System.out.println("Cast Spell!");
-                    Monster monster = hero.canAttack(monsters);
-                    hero.castSpell(input, monster);
+                    if(hero.canAttack(monsters) != null){
+                        Monster monster = hero.canAttack(monsters);
+                        hero.castSpell(input, monster);
+                    }else{
+                        System.out.println("There is no monster in your attack range!");
+                        continue;
+                    }
                 }else if("t".equalsIgnoreCase(s)){
                     System.out.println("Please select row you want to teleport");
                     String r = UtilCheckInput.checkInput(input, 1, 8);
@@ -161,13 +173,7 @@ public class GameController extends RpgGame
 
                     List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
                     this.actionAllMonsters(heroes, monsters, cells);
-                    //monster attack
 
-
-                    for (Monster monster : monsters) {
-                        Hero h = monster.canAttack(heroes);
-                        monster.attack(h);
-                    }
                     //if hero die respawn in base
                     if(!hero.isAlive()){
                         hero.backToBase(playerTeam, cells, hero);
@@ -193,7 +199,8 @@ public class GameController extends RpgGame
 
     //make monster move
     public void actionAllMonsters(List<Hero> heroes, List<Monster> m, Cell[][] cells){
-
+        System.out.println(Message.demon1);
+        System.out.println("Monsters' round!");
         for (Monster monster : m) {
             if(monster.canAttack(heroes) != null) {
                 Hero h = monster.canAttack(heroes);
