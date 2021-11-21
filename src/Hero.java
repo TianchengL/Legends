@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * abstract class for all three types of hero
@@ -74,6 +75,20 @@ public abstract class Hero extends Character{
                         "Dealt " + Math.round(realDamage) + " real damage");
             }
         }
+    }
+
+    //hero cast Spell
+    public void castSpell(Scanner input, Monster m){
+        List<Spell> spells = this.getInventory().getSpellList();
+        if (!spells.isEmpty()) {
+            this.getInventory().printSpells();
+            System.out.println("Please select Spell ID to cast");
+            int id = Integer.parseInt(UtilCheckInput.checkInput(input, 1, spells.size()));
+            spells.get(id - 1).cast(this, m);
+            this.showInfoBattle();
+            m.displayStats();
+        }
+        System.out.println("There is no spell!");
     }
 
     //according to index to equip weapon

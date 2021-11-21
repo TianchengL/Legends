@@ -89,10 +89,15 @@ public class GameController extends RpgGame
                     hero.makeMove(this.playerTeam, cells, hero, row, col);
                 }  //attack
                 else if ("k".equalsIgnoreCase(s)){
+                    //hero attack
+                    System.out.println("Attack Monster!");
+                    Monster monster = hero.canAttack(this.playerTeam);
+                    hero.attack(monster);
 
-
-
-
+                }else if("c".equalsIgnoreCase(s)){
+                    System.out.println("Cast Spell!");
+                    Monster monster = hero.canAttack(this.playerTeam);
+                    hero.castSpell(input, monster);
                 }
                 alreadyMoved = true;
             } else if ("m".equalsIgnoreCase(s)) {
@@ -152,18 +157,15 @@ public class GameController extends RpgGame
     }
 
     //0.5 chance to enter fight
-    public void fight(Scanner input) {
-        if (Math.random() > 0.5) {
-            Fight f = new Fight(this.playerTeam);
-            f.roundPlay(input);
-        }
+    public void attack(Scanner input) {
+
     }
 
     private void showMapInfo() {
         System.out.println("w = move up | s = move down | a = move left | d = move right");
         System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
-        System.out.println("k = attack");
+        System.out.println("k = attack | c = cast spell");
         System.out.println("q = quit the game");
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
     }
