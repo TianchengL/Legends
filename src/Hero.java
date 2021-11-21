@@ -455,13 +455,15 @@ public abstract class Hero extends Character{
     @Override
     public Monster canAttack(Team monsterTeam) {
         for(Monster monster: ((MonsterTeam) monsterTeam).getMonsters()){
+            if(monster.isAlive()){
             //a monster is on the upper row of the hero (left, up, or right)
-            if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                return monster;
-            }
-            //a monster is on the same row of the hero (left, same cell, or right)
-            else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
-                return monster;
+                if(monster.getRow() - this.getRow() == -1 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                    return monster;
+                }
+                //a monster is on the same row of the hero (left, same cell, or right)
+                else if(monster.getRow() - this.getRow() == 0 && (monster.getCol() - this.getCol() <= 1 || monster.getCol() - this.getCol() <= -1)){
+                    return monster;
+                }
             }
         }
         return null;
