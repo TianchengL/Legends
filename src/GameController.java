@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * mvc pattern,
@@ -91,13 +88,25 @@ public class GameController extends RpgGame
                     //hero attack
                     hero.showInfoBattle();
                     System.out.println("Attack Monster!");
-                    Monster monster = hero.canAttack(monsterTeam);
+                    Monster monster = hero.canAttack(monsters);
                     hero.attack(monster);
 
                 }else if("c".equalsIgnoreCase(s)){
                     System.out.println("Cast Spell!");
-                    Monster monster = hero.canAttack(this.playerTeam);
+                    Monster monster = hero.canAttack(monsters);
                     hero.castSpell(input, monster);
+                }else if("t".equalsIgnoreCase(s)){
+                    System.out.println("Please select row you want to teleport");
+                    String r = UtilCheckInput.checkInput(input, 1, 8);
+                    System.out.println("Please select col you want teleport");
+                    String c = UtilCheckInput.checkInput(input, 1, 8);
+                    int row = Integer.parseInt(r) - 1;
+                    int col = Integer.parseInt(c) - 1;
+                    if(!hero.telePort(cells, row, col, playerTeam, hero))
+                        continue;
+                }else if("b".equalsIgnoreCase(s)){
+                    System.out.println("Back to base...");
+                    hero.backToBase(playerTeam, cells, hero);
                 }
                 alreadyMoved = true;
             } else if ("m".equalsIgnoreCase(s)) {
@@ -131,8 +140,9 @@ public class GameController extends RpgGame
                     //add new monster
                     this.moveAllMonster(monsters, cells);
                     //monster attack
+                    List<Hero> heroes = new ArrayList<>(this.playerTeam.getTeam().values());
                     for (Monster monster : monsters) {
-                        Hero h = monster.canAttack(playerTeam);
+                        Hero h = monster.canAttack(heroes);
                         monster.attack(h);
                     }
                     //if hero die respawn in base
@@ -145,8 +155,9 @@ public class GameController extends RpgGame
                     hero = playerTeam.getHero(playerTeam.getHeroID(hero) + 1);
                 }
                 alreadyMoved = false;
+                //player team regain
+                playerTeam.regain();
 
-                //monster make move
             } else {
                 if ("q".equalsIgnoreCase(s)) {
                     break;
@@ -157,6 +168,7 @@ public class GameController extends RpgGame
         System.out.println("Good Bye!");
     }
 
+    //make monster move
     public void moveAllMonster(List<Monster> m, Cell[][] cells){
 
         for (Monster monster : m) {
@@ -166,7 +178,7 @@ public class GameController extends RpgGame
         }
     }
 
-
+    //every 4 round add 3 new monsters
     public void addNewMonster(Cell[][] cells){
         //every 2 round renew monster
         if(roundNum %  4 == 0){
@@ -186,40 +198,14 @@ public class GameController extends RpgGame
         this.market.sellBuyItem(input, hero);
     }
 
-    //0.5 chance to enter fight
-    public void attack(Scanner input) {
-
-    }
-
     private void showMapInfo() {
         System.out.println("w = move up | s = move down | a = move left | d = move right");
         System.out.println("f = finish current hero turn");
         System.out.println("e = heroes inventory | i = info | m = Enter Market(Only when you at Market Cell)");
         System.out.println("k = attack | c = cast spell");
+        System.out.println("t = teleport | b = back to base");
         System.out.println("q = quit the game");
         System.out.println("Hero could change their equipment or drink available potion in inventory menu");
-    }
-
-
-    //initial player position cannot be blocked in all direction
-    private int[] validPlayerPos(Cell[][] cells) {
-        int r = (int)(Math.random() * 8);
-        int c = (int)(Math.random() * 8);
-        while (true) {
-            if (!(cells[r][c] instanceof InaccessibleCell)) {
-                if (r - 1 >= 0 && !(cells[r - 1][c] instanceof InaccessibleCell)) {
-                    break;
-                }
-                if ((r + 1 < cells.length && !(cells[r + 1][c] instanceof InaccessibleCell)) ||
-                        (c - 1 >= 0 && !(cells[r][c - 1] instanceof InaccessibleCell))
-                        || (c + 1 < cells.length && !(cells[r][c + 1] instanceof InaccessibleCell))) {
-                    continue;
-                }
-            }
-            r = (int)(Math.random() * 8);
-            c = (int)(Math.random() * 8);
-        }
-        return new int[] { r, c };
     }
 
     public void end(){
