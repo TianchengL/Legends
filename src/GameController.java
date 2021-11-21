@@ -73,7 +73,11 @@ public class GameController extends RpgGame
                     //change playerteam to hero
                     int row = hero.getRow() - 1;
                     int col = hero.getCol();
-                    hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                    if(hero.canAttack(monsters) != null) {
+                        System.out.println("You cannot pass by a monster without attacking it!");
+                    } else{
+                        hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
+                    }
                 } else if ("s".equalsIgnoreCase(s)) {
                     int row = hero.getRow() + 1;
                     int col = hero.getCol();

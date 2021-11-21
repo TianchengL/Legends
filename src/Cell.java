@@ -14,6 +14,7 @@ public class Cell
     //check if this cell has been explored
     private boolean isExplored;
 
+
     public Cell(String value) {
         this.value = value;
         pos = new String[3][5];
