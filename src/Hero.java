@@ -262,10 +262,9 @@ public abstract class Hero extends Character{
 
 
     //current turn hero move to next cell
-    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col) {
+    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col,double kBooost,double cBoost,double bBoost) {
         //current turn hero num
         String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
-
         if (UtilCheckInput.checkBorder(row, col)) {
             if (cells[row][col] instanceof InaccessibleCell) {
                 System.out.println("cannot enter # (inaccessible)!");
@@ -289,7 +288,43 @@ public abstract class Hero extends Character{
                 System.out.println("Congratulation!");
                 System.out.println("This Hero have destroy the monster's nexus");
                 this.setReachEnemyBase(true);
-            }else{
+            }else if(cells[row][col] instanceof BushCell){
+                System.out.println("The dexterity of "+ hero.getName() +" has boosted" );
+                hero.setStrength(hero.getStrength()-kBooost);
+                hero.setAgility(hero.getAgility() - cBoost);
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+                //set this cell and same row cell as explored
+                setCellExplored(cells, row, col);
+            }
+            else if(cells[row][col] instanceof CaveCell){
+                System.out.println("The agility of "+ hero.getName() +" has boosted" );
+                hero.setStrength(hero.getStrength()-kBooost);
+                hero.setDexterity(hero.getDexterity() - bBoost);
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+                //set this cell and same row cell as explored
+                setCellExplored(cells, row, col);
+            }
+            else if(cells[row][col] instanceof KoulouCell){
+                System.out.println("The strength of "+ hero.getName() +" has boosted" );
+                hero.setDexterity(hero.getDexterity() - bBoost);
+                hero.setAgility(hero.getAgility() - cBoost);
+                cells[row][col].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                //update hero pos
+                hero.setPos(row, col);
+                //set this cell and same row cell as explored
+                setCellExplored(cells, row, col);
+            }
+            else{
+                hero.setDexterity(hero.getDexterity() - bBoost);
+                hero.setAgility(hero.getAgility() - cBoost);
+                hero.setStrength(hero.getStrength()-kBooost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
                 cells[hero.getRow()][hero.getCol()].resetHeroCell();
                 //update hero pos

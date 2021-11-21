@@ -4,6 +4,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.util.Scanner;
 
+
 /**
  * Main class for the Legend game
  */

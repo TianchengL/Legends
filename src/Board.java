@@ -38,10 +38,10 @@ public class Board {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if(i == 0 ){
-                    this.cells[i][j] = new MonsterNexusCell("N");
+                    this.cells[i][j] = new MonsterNexusCell("M");
                 }
                 else if(i == 7){
-                    this.cells[i][j] = new HeroNexusCell("N");
+                    this.cells[i][j] = new HeroNexusCell("H");
                 }
                 else if(j == 2 || j == 5){
                     this.cells[i][j] = new InaccessibleCell("I");
