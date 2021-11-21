@@ -9,7 +9,6 @@ public class GameController extends RpgGame
     private final Board board;
     private final Scanner input;
     private final PlayerTeam playerTeam;
-    private final MonsterTeam monsterTeam;
     private final Market market;
     private final Map<Integer, Hero> heroes;
     private final List<Monster> monsters;
@@ -18,7 +17,7 @@ public class GameController extends RpgGame
     public GameController(Scanner input, HeroSelectionController hs) {
         this.input = input;
         this.playerTeam = hs.getPlayerTeam();
-        this.monsterTeam = new MonsterTeam(this.playerTeam);
+        MonsterTeam monsterTeam = new MonsterTeam(this.playerTeam);
         this.board = new Board(8,8);
         this.market = new Market();
         this.heroes = playerTeam.getTeam();
@@ -86,6 +85,8 @@ public class GameController extends RpgGame
                                 continue;
                             alreadyMoved = true;
                         }
+                    }else{
+                        System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");
                     }
                     break;
                 case "a":
@@ -95,7 +96,8 @@ public class GameController extends RpgGame
                         col = hero.getCol() - 1;
                         if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
                         alreadyMoved = true;
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
+
                     break;
                 case "s":
                     if(!alreadyMoved) {
@@ -104,7 +106,7 @@ public class GameController extends RpgGame
                         col = hero.getCol();
                         if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
                         alreadyMoved = true;
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "d":
                     if(!alreadyMoved) {
@@ -112,7 +114,7 @@ public class GameController extends RpgGame
                         col = hero.getCol() + 1;
                         if (!hero.makeMove(this.playerTeam, cells, hero, row, col, kBoost, bBoost, cBoost)) continue;
                         alreadyMoved = true;
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "k":
                     if(!alreadyMoved) {
@@ -123,12 +125,14 @@ public class GameController extends RpgGame
                             System.out.println("Attack Monster!");
                             Monster monster = hero.canAttack(monsters);
                             hero.attack(monster);
-
+                            if(!monster.isAlive()){
+                                hero.setBonus(2, 100 * monster.getLevel());
+                            }
                         } else {
                             System.out.println("There is no monster in your attack range!");
                             continue;
                         }
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "c":
                     if(!alreadyMoved) {
@@ -136,16 +140,20 @@ public class GameController extends RpgGame
                         if (hero.canAttack(monsters) != null) {
 
                             Monster monster = hero.canAttack(monsters);
+                            //if mana not enough continue this turn
                             if(!hero.castSpell(input, monster)){
                                 continue;
                             }else{
+                                if(!monster.isAlive()){
+                                    hero.setBonus(2, 100 * monster.getLevel());
+                                }
                                 alreadyMoved = true;
                             }
                         } else {
                             System.out.println("There is no monster in your attack range!");
                             continue;
                         }
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "t":
                     if(!alreadyMoved) {
@@ -157,14 +165,14 @@ public class GameController extends RpgGame
                         col = Integer.parseInt(c) - 1;
                         if (!hero.telePort(cells, row, col, playerTeam, hero)) continue;
                         alreadyMoved = true;
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "b":
                     if(!alreadyMoved) {
                         System.out.println("Back to base...");
                         hero.backToBase(playerTeam, cells, hero);
                         alreadyMoved = true;
-                    }
+                    }else{ System.out.println("\nYou have already moved!!!!!!!!!!!!!!!!!");}
                     break;
                 case "m":
                     if (cells[hero.getRow()][hero.getCol()] instanceof HeroNexusCell) {
@@ -180,7 +188,7 @@ public class GameController extends RpgGame
                     break;
                 case "i":
                     for (Integer integer : this.playerTeam.getTeam().keySet()) {
-                        System.out.println(this.playerTeam.getHero(integer).getName());
+                        //System.out.println(this.playerTeam.getHero(integer).getName());
                         this.playerTeam.getHero(integer).disPlay();
                     }
                     break;
@@ -199,6 +207,7 @@ public class GameController extends RpgGame
                         //if hero die respawn in base
                         if(!hero.isAlive()){
                             hero.backToBase(playerTeam, cells, hero);
+                            hero.revive();
                         }
                         //reset to first hero
                         hero = playerTeam.getHero(0);
@@ -225,6 +234,8 @@ public class GameController extends RpgGame
     public void actionAllMonsters(List<Hero> heroes, List<Monster> m, Cell[][] cells){
         System.out.println(Message.demon1);
         System.out.println("Monsters' round!");
+        m.removeIf(monster -> !monster.isAlive());
+
         for (Monster monster : m) {
             if(monster.canAttack(heroes) != null) {
                 Hero h = monster.canAttack(heroes);

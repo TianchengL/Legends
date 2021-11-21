@@ -92,10 +92,12 @@ public abstract class Hero extends Character{
             if(!spells.get(id - 1).cast(this, m)){
                 return false;
             }
+            spells.remove(spells.get(id-1));
             this.showInfoBattle();
             m.displayStats();
+        }else{
+            System.out.println("There is no spell!");
         }
-        System.out.println("There is no spell!");
         return true;
     }
 
@@ -192,8 +194,7 @@ public abstract class Hero extends Character{
     //revive this hero, get back half HP
     //AND this hero loss half of his money
     public void revive(){
-        this.HP = this.level * 50;
-        this.money -= this.money/2;
+        this.HP = this.level * 100;
     }
 
     //add specified money and exp for extendable purpose
@@ -253,18 +254,29 @@ public abstract class Hero extends Character{
 
         //set hero position to base according to hero number
         if(playerTeam.getHeroID(hero) == 0){
-            cells[cells.length - 1][0].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(7, 0);
+            if(cells.length - 1 == hero.getRow() && hero.getCol() == 0){
+                cells[cells.length - 1][0].setCellHeroPos("H" + heroNum);
+            }else{
+                cells[cells.length - 1][0].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                hero.setPos(7, 0);
+            }
         }else if(playerTeam.getHeroID(hero) == 1){
-            cells[cells.length - 1][3].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(7, 3);
-
+            if(cells.length - 1 == hero.getRow() && hero.getCol() == 3){
+                cells[cells.length - 1][3].setCellHeroPos("H" + heroNum);
+            }else {
+                cells[cells.length - 1][3].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                hero.setPos(7, 3);
+            }
         }else if(playerTeam.getHeroID(hero) == 2){
-            cells[cells.length - 1][6].setCellHeroPos("H" + heroNum);
-            cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(7, 6);
+            if(cells.length - 1 == hero.getRow() && hero.getCol() == 6){
+                cells[cells.length - 1][6].setCellHeroPos("H" + heroNum);
+            }else {
+                cells[cells.length - 1][6].setCellHeroPos("H" + heroNum);
+                cells[hero.getRow()][hero.getCol()].resetHeroCell();
+                hero.setPos(7, 6);
+            }
         }
     }
 
