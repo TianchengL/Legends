@@ -31,6 +31,16 @@ public class Message {
             "           :                :.          "+Board.ANSI_RESET;
 
 
+    public static String vs = "\n" +
+            "\t\t          _______ \n" +
+            "\t\t|\\     /|(  ____ \\\n" +
+            "\t\t| )   ( || (    \\/\n" +
+            "\t\t| |   | || (_____ \n" +
+            "\t\t( (   ) )(_____  )\n" +
+            "\t\t \\ \\_/ /       ) |\n" +
+            "\t\t  \\   /  /\\____) |\n" +
+            "\t\t   \\_/   \\_______)";
+
 
    public static String monster = "\n" +
            "                                        \n" +

@@ -96,6 +96,7 @@ public class GameController extends RpgGame
                     if(hero.canAttack(monsterTeam) != null){
                         System.out.println("Attack starts!");
                         //enter fight
+
                         System.out.println(Message.fight);
                         System.out.println(hero.canAttack(monsterTeam).getName());
                     }else{
