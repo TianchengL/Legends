@@ -252,16 +252,16 @@ public abstract class Hero extends Character{
         if(playerTeam.getHeroID(hero) == 0){
             cells[cells.length - 1][0].setCellHeroPos("H" + heroNum);
             cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 0);
+            hero.setPos(7, 0);
         }else if(playerTeam.getHeroID(hero) == 1){
             cells[cells.length - 1][3].setCellHeroPos("H" + heroNum);
             cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 3);
+            hero.setPos(7, 3);
 
         }else if(playerTeam.getHeroID(hero) == 2){
             cells[cells.length - 1][6].setCellHeroPos("H" + heroNum);
             cells[hero.getRow()][hero.getCol()].resetHeroCell();
-            hero.setPos(0, 6);
+            hero.setPos(7, 6);
         }
     }
 
