@@ -4,7 +4,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 //Class for adding the background music during the game
 public class Audio{
-    void playMusic(String musicLocation)
+    public void playMusic(String musicLocation)
     {
         try
         {

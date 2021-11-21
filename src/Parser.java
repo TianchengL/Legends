@@ -14,7 +14,7 @@ public class Parser
     private final String file;
 
     public Parser() {
-        this.file = System.getProperty("user.dir") + "/src/ConfigFiles/";
+        this.file = System.getProperty("user.dir") + "/ConfigFiles/";
     }
 
     private List<String> readFile(String path, String name) {
