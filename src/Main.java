@@ -11,6 +11,8 @@ public class Main
 {
     public static void main(final String[] args) {
         final Scanner input = new Scanner(System.in);
+        System.out.println(Message.welcome);
+        System.out.println(Message.hero+Message.vs+Message.monster);
         System.out.println("Welcome To Legends!");
         String filepath = "backGroundMusic.wav";
 //        Audio musicObject = new Audio();

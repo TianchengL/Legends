@@ -9,6 +9,10 @@ public class Cell
 
     private String value;
     private final String[][] pos;
+    //check if this cell contains hero or is monster
+    private boolean isHero, isMonster;
+    //check if this cell has been explored
+    private boolean isExplored;
 
     public Cell(String value) {
         this.value = value;
@@ -44,6 +48,24 @@ public class Cell
     public String[][] getPos() {
         return pos;
     }
+    public boolean isHero() {
+        return isHero;
+    }
+    public void setIsHero(boolean hero) {
+        isHero = hero;
+    }
+    public boolean isMonster() {
+        return isMonster;
+    }
+    public void setIsMonster(boolean monster) {
+        isMonster = monster;
+    }
+    public boolean isExplored() {
+        return isExplored;
+    }
+    public void setExplored(boolean explored) {
+        isExplored = explored;
+    }
 
     //used to set Hero and monster's position
     //pos = 0 represent left of the cell, 1 is right of the cell
@@ -52,17 +74,21 @@ public class Cell
     }
     public void setCellHeroPos(String hero){
         this.pos[1][1] = " " + hero;
+        this.setIsHero(true);
     }
     public void setCellMonPos(String m){
         this.pos[1][3] = " " + m;
+        this.setIsMonster(true);
     }
     //clear hero cell
     public void resetHeroCell(){
         this.pos[1][1] = "   ";
+        this.setIsHero(false);
     }
     //clear monster cell
     public void resetMCell(){
         this.pos[1][3] = "   ";
+        this.setIsMonster(false);
     }
 
     //getter and setter
@@ -99,9 +125,9 @@ public class Cell
         Cell m = new Cell("M");
         n.setCellHeroPos("H1");
         n.setCellMonPos("M1");
-        n.resetHeroCell();
-        n.resetMCell();
-       // n.printCell();
+        //n.resetHeroCell();
+        //n.resetMCell();
+        // n.printCell();
 //        m.printCell();
 
     }

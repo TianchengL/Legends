@@ -24,6 +24,7 @@ public class UtilCheckInput
         return in >= lowerBound && in <= upperBound;
     }
 
+    //return true if input row col is not out of bound
     public static boolean checkBorder(int row, int col) {
         return row < 8 && row >= 0 && col < 8 && col >= 0;
     }

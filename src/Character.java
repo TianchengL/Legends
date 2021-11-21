@@ -19,19 +19,15 @@ public abstract class Character {
     public void setName(String name) {
         this.name = name;
     }
-
     public int getRow() {
         return row;
     }
-
     public void setRow(int row) {
         this.row = row;
     }
-
     public int getCol() {
         return col;
     }
-
     public void setCol(int col) {
         this.col = col;
     }
@@ -42,8 +38,7 @@ public abstract class Character {
 
 
 
-    public abstract boolean canAttack(Team team);   //judge if there is an opposite character in its attack range
-
+    public abstract Character canAttack(Team team);   //judge if there is an opposite character in its attack range
 
 
 }
