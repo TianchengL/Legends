@@ -20,7 +20,7 @@ public class Board {
         this.initCells(row, col);
     }
 
-    //random create 20% block cell, 50% common cell, 30% market cell
+    //random generate 20% special cell and 40% plain cell and then Inaccessible cell and nexus
     public void initCells(int row, int col){
         this.cells = new Cell[row][col];
         int size = (row - 2) * (col - 2);

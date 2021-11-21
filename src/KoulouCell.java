@@ -1,3 +1,4 @@
+//Koulou cell class that extends to the cell class
 public class KoulouCell extends Cell{
 
     public KoulouCell(String value){

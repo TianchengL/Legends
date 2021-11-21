@@ -1,5 +1,5 @@
+// HeroNexusCell class extends to the cell class
 public class HeroNexusCell extends Cell{
-
     public HeroNexusCell(String value){
         super(value);
     }

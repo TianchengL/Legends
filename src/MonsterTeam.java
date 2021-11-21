@@ -62,12 +62,6 @@ public class MonsterTeam extends Team{
         }
         return true;
     }
-    public void setCondition(int value){
-        this.winCondition = value;
-    }
-    public int getCondition(){
-        return this.winCondition;
-    }
 
     public void addMonster(Monster monster) {
         this.monster_team.add(monster);

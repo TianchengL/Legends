@@ -1,3 +1,4 @@
+// Monster nexus cell class which extends to cell class
 public class MonsterNexusCell extends Cell{
 
     public MonsterNexusCell(String value){

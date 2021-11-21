@@ -1,3 +1,4 @@
+//CaveCell class extends to the cell class
 public class CaveCell extends Cell{
     public CaveCell( String value){
         super(value);

@@ -1,3 +1,4 @@
+// Bush cell class extends to cell class
 public class BushCell extends Cell{
 
     public BushCell(String value){
