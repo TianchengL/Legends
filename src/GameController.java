@@ -44,9 +44,9 @@ public class GameController extends RpgGame
         heroes.get(2).setHeroPos(map[map.length -1][6], "H3", map.length - 1, 6 );
 
         //initialize monster pos
-        monsters.get(0).setMonsterPos(map[0][0], "M1", 0, 0);
-        monsters.get(1).setMonsterPos(map[0][3], "M2", 0, 3);
-        monsters.get(2).setMonsterPos(map[0][6], "M3", 0, 6);
+        monsters.get(0).setMonsterPos(map[0][0], "M ", 0, 0);
+        monsters.get(1).setMonsterPos(map[0][3], "M ", 0, 3);
+        monsters.get(2).setMonsterPos(map[0][6], "M ", 0, 6);
 
     }
 
@@ -63,6 +63,7 @@ public class GameController extends RpgGame
             System.out.println("In hero "+hero.name+ "'s round");
             System.out.println();
             this.showMapInfo();
+            hero.showInfoBattle();
             String s = this.input.next();
 
             if(!alreadyMoved) {
@@ -87,7 +88,7 @@ public class GameController extends RpgGame
                 else if ("k".equalsIgnoreCase(s)){
                     //hero attack
                     System.out.println("Attack Monster!");
-                    Monster monster = hero.canAttack(this.playerTeam);
+                    Monster monster = hero.canAttack(monsterTeam);
                     hero.attack(monster);
 
                 }else if("c".equalsIgnoreCase(s)){
@@ -114,10 +115,8 @@ public class GameController extends RpgGame
                     this.playerTeam.getHero(integer).disPlay();
                 }
             }
-
             //finish current hero turn
             else if ("f".equalsIgnoreCase(s)) {
-
                 countTurn++;
                 //System.out.println("11111111111111 count turn :" + countTurn);
                 //add new monster
@@ -128,8 +127,12 @@ public class GameController extends RpgGame
                     //System.out.println("22222222222222 round num: " + roundNum);
                     this.addNewMonster(cells);
                     //If all heroes made a move, then all monsters move forward
-                    System.out.println("111111111111111111 monsters size: " + monsters.size());
                     this.moveAllMonster(monsters, cells);
+                    //monster attack
+                    for (Monster monster : monsters) {
+                        Hero h = monster.canAttack(playerTeam);
+                        monster.attack(h);
+                    }
 
                     //reset to first hero
                     hero = playerTeam.getHero(0);
@@ -160,12 +163,12 @@ public class GameController extends RpgGame
 
     public void addNewMonster(Cell[][] cells){
         //every 2 round renew monster
-        if(roundNum %  2 == 0){
+        if(roundNum %  4 == 0){
             MonsterTeam newMonsters = new MonsterTeam(playerTeam);
             List<Monster> newMTeam = newMonsters.getMonsters();
-            newMTeam.get(0).setMonsterPos(cells[0][0], "M4", 0, 0);
-            newMTeam.get(1).setMonsterPos(cells[0][3], "M5", 0, 3);
-            newMTeam.get(2).setMonsterPos(cells[0][6], "M6", 0, 6);
+            newMTeam.get(0).setMonsterPos(cells[0][0], "M ", 0, 0);
+            newMTeam.get(1).setMonsterPos(cells[0][3], "M ", 0, 3);
+            newMTeam.get(2).setMonsterPos(cells[0][6], "M ", 0, 6);
             monsters.addAll(newMTeam);
             System.out.println("The monsters have respawned");
         }
