@@ -261,7 +261,7 @@ public abstract class Hero extends Character{
 
 
     //current turn hero move to next cell
-    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero,  int row,int col,double kBoost,double bBoost,double cBoost) {
+    public void makeMove(PlayerTeam playerTeam, Cell[][] cells, Hero hero, int row, int col,double kBoost,double bBoost,double cBoost) {
         //current turn hero num
         String heroNum = String.valueOf(playerTeam.getHeroID(hero) + 1);
         if (UtilCheckInput.checkBorder(row, col)) {
@@ -345,7 +345,7 @@ public abstract class Hero extends Character{
             cells[row][col-1].setExplored(true);
         }
         //if current cell right is not out of bound and is not block cel
-        if(col + 1 <= cells[0].length &&  !(cells[row][col+1] instanceof InaccessibleCell)){
+        if(col + 1 <= cells[0].length - 1 &&  !(cells[row][col+1] instanceof InaccessibleCell)){
             cells[row][col+1].setExplored(true);
         }
     }
