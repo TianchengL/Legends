@@ -66,15 +66,14 @@ public class GameController extends RpgGame
             playerTeam.displayName();
             hero.disPlay();
             String s = this.input.next();
-            double kBoost = hero.getStrength() * 0.1;
-            double bBoost = hero.getDexterity()*0.1;
-            double cBoost = hero.getAgility()*0.1;
-            hero.setDexterity(hero.getDexterity()+bBoost);
-            hero.setAgility(hero.getAgility()+cBoost);
-            hero.setStrength(hero.getStrength()+kBoost);
             if(!alreadyMoved) {
                 if ("w".equalsIgnoreCase(s)) {
                     //change playerteam to hero
+                    double kBoost = hero.getStrength() * 0.1;
+                    double bBoost = hero.getDexterity()*0.1;
+                    double cBoost = hero.getAgility()*0.1;
+                    ///check and remove the boost before make a move
+                    this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow() - 1;
                     int col = hero.getCol();
                     if(hero.canAttack(monsters) != null) {
@@ -83,14 +82,26 @@ public class GameController extends RpgGame
                         hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                     }
                 } else if ("s".equalsIgnoreCase(s)) {
+                    double kBoost = hero.getStrength() * 0.1;
+                    double bBoost = hero.getDexterity()*0.1;
+                    double cBoost = hero.getAgility()*0.1;
+                    this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow() + 1;
                     int col = hero.getCol();
                     hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 } else if ("a".equalsIgnoreCase(s)) {
+                    double kBoost = hero.getStrength() * 0.1;
+                    double bBoost = hero.getDexterity()*0.1;
+                    double cBoost = hero.getAgility()*0.1;
+                    this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow();
                     int col = hero.getCol() - 1;
                     hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
                 } else if ("d".equalsIgnoreCase(s)) {
+                    double kBoost = hero.getStrength() * 0.1;
+                    double bBoost = hero.getDexterity()*0.1;
+                    double cBoost = hero.getAgility()*0.1;
+                    this.checkBoost(hero,kBoost,cBoost,bBoost);
                     int row = hero.getRow();
                     int col = hero.getCol() + 1;
                     hero.makeMove(this.playerTeam, cells, hero, row, col,kBoost,bBoost,cBoost);
@@ -194,6 +205,24 @@ public class GameController extends RpgGame
             }
         }
     }
+
+    //Check hero current boost state, if there is any boost, remove it before make a move
+    public void checkBoost(Hero h, double k, double c, double b){
+        if(h.getB() == true){
+            h.setDexterity(h.getDexterity() - b);
+            h.setB(false);
+        }
+        else if (h.getC() == true){
+            h.setAgility(h.getAgility() - c);
+            h.setC(false);
+        }
+        else if (h.getK() == true){
+            h.setStrength(h.getStrength() - k);
+            h.setK(false);
+        }
+
+    }
+
 
     //every 4 round add 3 new monsters
     public void addNewMonster(Cell[][] cells){

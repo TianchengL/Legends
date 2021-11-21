@@ -23,6 +23,9 @@ public abstract class Hero extends Character{
 
     //true if this hero has reached enemy nexus
     private boolean reachEnemyBase;
+    private boolean kBoosted;
+    private boolean cBoosted;
+    private boolean bBoosted;
 
 
     enum HeroType{
@@ -41,6 +44,9 @@ public abstract class Hero extends Character{
         this.money = money;
         this.exp = exp;
         inventory = new Inventory(this);
+        this.kBoosted =false;
+        this.cBoosted = false;
+        this.bBoosted = false;
     }
 
     //Strategy pattern for hero skills
@@ -289,6 +295,8 @@ public abstract class Hero extends Character{
                 this.setReachEnemyBase(true);
             }else if(cells[row][col] instanceof BushCell){
                 System.out.println("The dexterity of "+ hero.getName() +" has boosted" );
+                //when hero receive boost, turn the boost state to true
+                hero.setB(true);
                 hero.setStrength(hero.getStrength()-kBoost);
                 hero.setAgility(hero.getAgility() - cBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
@@ -300,6 +308,7 @@ public abstract class Hero extends Character{
             }
             else if(cells[row][col] instanceof CaveCell){
                 System.out.println("The agility of "+ hero.getName() +" has boosted" );
+                hero.setC(true);
                 hero.setStrength(hero.getStrength()-kBoost);
                 hero.setDexterity(hero.getDexterity() - bBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
@@ -311,6 +320,7 @@ public abstract class Hero extends Character{
             }
             else if(cells[row][col] instanceof KoulouCell){
                 System.out.println("The strength of "+ hero.getName() +" has boosted" );
+                hero.setK(true);
                 hero.setDexterity(hero.getDexterity() - bBoost);
                 hero.setAgility(hero.getAgility() - cBoost);
                 cells[row][col].setCellHeroPos("H" + heroNum);
@@ -354,6 +364,17 @@ public abstract class Hero extends Character{
     //getter and setter
     public double getMana() {
         return mana;
+    }
+    public boolean getK(){
+        return this.kBoosted;
+    }
+
+    public boolean getC(){
+        return this.cBoosted;
+    }
+
+    public boolean getB(){
+        return this.bBoosted;
     }
     public int getMoney() {
         return money;
@@ -414,6 +435,17 @@ public abstract class Hero extends Character{
     }
     public void setID(int ID) {
         this.ID = ID;
+    }
+    public void setK(boolean k){
+        this. kBoosted = k;
+    }
+
+    public void setB(boolean b){
+        this.bBoosted = b;
+    }
+
+    public void setC(boolean c){
+        this.cBoosted =c;
     }
     public void setReachEnemyBase(boolean reachEnemyBase) {
         this.reachEnemyBase = reachEnemyBase;
